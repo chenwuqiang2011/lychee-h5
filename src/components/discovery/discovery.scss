@@ -1,28 +1,5 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-body, html {
-	max-width: 768px;
-	height: 100%;
-	margin: 0 auto;
-}
-
-
-$maxWidth: 768px;
-
-
-
-%flexColumn {
-  display: flex;
-  justify-content: center;
-  // align-items: center;
-  flex-direction: column;
-}
-
-
-
-.home{
+@import '../../assets/style/base/base.scss';
+.discovery{
 	max-width: $maxWidth;
 	height: 100%;
 	@extend %flexColumn;
@@ -35,7 +12,7 @@ $maxWidth: 768px;
 	.content {
 		flex: 1;
 		font-size: 0.53rem;
-		background: red;
+		background: green;
 		min_width: 10.0rem;
 		overflow-y: auto;
 		&::-webkit-scrollbar {
@@ -45,10 +22,5 @@ $maxWidth: 768px;
 			height: 10000px;
 			padding-bottom: 1.33rem;
 		}
-	}
-	.footer {
-		height: 1.33rem;
-		background: red;
-		min_width: 10.0rem;
 	}
 }

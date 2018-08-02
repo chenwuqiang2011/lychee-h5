@@ -1,5 +1,15 @@
+
 $maxWidth: 768px;
 
+* {
+	margin: 0;
+	padding: 0;
+}
+body, html {
+	max-width: $maxWidth;
+	height: 100%;
+	margin: 0 auto;
+}
 
 %flexRow {
   display: flex;

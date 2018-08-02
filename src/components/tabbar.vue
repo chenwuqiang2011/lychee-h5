@@ -1,14 +1,14 @@
 <template>
 	<div class="tabbar">
-		<div class="tabbar_item" :class="{active: name==='home'}">
+		<div class="tabbar_item" :class="{active: name==='home'}" @click = "$router.push('/home')">
 			<i class = "tabbar_home"></i>
 			<p>首页</p>
 		</div>
-		<div class="tabbar_item" :class="{active: name==='discovery'}">
+		<div class="tabbar_item" :class="{active: name==='discovery'}" @click = "$router.push('/discovery')">
 			<i class = "tabbar_discovery"></i>
 			<p>发现</p>
 		</div>
-		<div class="tabbar_item" :class="{active: name==='info'}">
+		<div class="tabbar_item" :class="{active: name==='info'}" @click = "$router.push('/info')">
 			<i class = "tabbar_info"></i>
 			<p>我的</p>
 		</div>
@@ -81,6 +81,9 @@
 						background-image: url('../assets/imgs/info_on.png');
 						@extend %bgCenter;
 					}
+				}
+				& > p {
+					color: #51aa38;
 				}
 			}
 		}
