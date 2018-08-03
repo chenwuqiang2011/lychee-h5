@@ -1,49 +1,115 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-body, html {
-	max-width: 768px;
-	height: 100%;
-	margin: 0 auto;
-}
 
-
-$maxWidth: 768px;
-
-
-
-%flexColumn {
-  display: flex;
-  justify-content: center;
-  // align-items: center;
-  flex-direction: column;
-}
-
-
-
+@import '../../assets/style/base/base.scss';
+@import '../../assets/style/color/color.scss';
 .home{
 	max-width: $maxWidth;
 	height: 100%;
 	@extend %flexColumn;
 	.header {
-		height: 1.33rem;
-		font-size: 1rem;
-		// font-size: 30px;
-		color: blue;
+		height: 1.2rem;
+		padding: 0 0.27rem;
+		background: $headBgColor;
+		@extend %flexRow;
+		justify-content: center;
+		align-items: center;
+		.header_l {
+			width: 1.67rem;
+			height: 0.72rem;
+			line-height: 0.72rem;
+			@extend %flexRow;
+			justify-content: center;
+			align-items: center;
+			color: $headColor;
+			& > i {
+				width: 0.4rem;
+				height: 0.4rem;
+				margin-left: 0.13rem;
+				background: url('../../assets/imgs/triangle-down.png') no-repeat;
+				background-size: cover;
+			}
+			& > span {
+				font-size: 0.37rem;
+			}
+		}
+		.header_r {
+			flex: 1;
+			background: #fff;
+			border-radius: 0.36rem;
+			height: 0.72rem;
+			line-height: 0.72rem;
+			padding: 0 0.36rem;
+			color: #989898;
+			& > i {
+				float: left;
+				display: inline-block;
+				width: 0.37rem;
+				height: 0.37rem;
+				margin-top: 0.17rem;
+				background: url('../../assets/imgs/search.png') no-repeat;
+				background-size: cover;
+			}
+			& > span {
+				float: left;
+				margin-left: 0.16rem;
+			}
+		}
 	}
 	.content {
 		flex: 1;
 		font-size: 0.53rem;
-		background: red;
 		min_width: 10.0rem;
 		overflow-y: auto;
 		&::-webkit-scrollbar {
 	        display: none;
 	    }
 		.content_body {
-			height: 10000px;
 			padding-bottom: 1.33rem;
+			background: $bodyColor;
+			//轮播图；
+			.swiper-container {
+				height: 4.0rem;
+				position: relative;
+				img {
+					height: 100%;
+					display: block;
+				}
+			}
+			// 分类
+			.category {
+				background: #fff;
+				height: 3.07rem;
+				@extend %flexRow;
+				justify-content: space-around;
+				align-items: center;
+				& > div {
+					flex: 1;
+					@extend %flexColumn;
+					justify-content: space-center;
+					align-items: center;
+
+					& > i {
+						display: block;
+						width: 1.33rem;
+						height: 1.33rem;
+						background: url('../../assets/imgs/category_icon.png') no-repeat;
+						background-size: cover;
+
+						&.icon_fare {
+							background-position: -1.87rem 0;
+						}
+						&.icon_tv {
+							background-position: -3.73rem 0;
+						}
+						&.icon_router {
+							background-position: -5.6rem 0;
+						}
+					}
+					& > p {
+						font-size: 0.4rem;
+						margin-top: 0.27rem;
+					}
+				}
+			}
 		}
 	}
 	.footer {

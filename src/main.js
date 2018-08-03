@@ -9,6 +9,16 @@ Vue.config.productionTip = false;
 //引入flexible;
 import './assets/js/flexible';
 
+//Element UI;
+import ElementUI from 'element-ui';
+import '../node_modules/element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
+//swiper
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+import '../node_modules/swiper/dist/css/swiper.min.css';
+Vue.use(VueAwesomeSwiper);
+
 //移动端单位转换；
 // var deviceWidth = document.documentElement.clientWidth;   
 // document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
