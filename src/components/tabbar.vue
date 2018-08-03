@@ -36,6 +36,7 @@
 </script>
 <style lang="scss" scoped>
 	@import '../assets/style/base/base.scss';
+	@import '../assets/style/color/color.scss';
 	.tabbar {
 		position: fixed;
 		left: 0;
@@ -45,30 +46,35 @@
 		max-width: $maxWidth;
 		// width: 100%;
 		height: 1.33rem;
-		background: #fff;
+		background: $footBgColor;
 		@extend %flexRow;
 		& > div {
 			flex: 1;
 		}
 		.tabbar_item {
 			@extend %flexColumn;
-			justify-content: center;
+			justify-content: space-around;
 			align-items: center;
 			& > i {
-				width: 0.67rem;
-				height: 0.67rem;
+				// width: 0.67rem;
+				width: 0.45rem;
+				height: 0.45rem;
+				// height: 0.67rem;
 				&.tabbar_home {
 					background-image: url('../assets/imgs/home.png');
 					@extend %bgCenter;
 				}
 				&.tabbar_discovery {
-					background-image: url('../assets/imgs/cart.png');
+					background-image: url('../assets/imgs/discovery.png');
 					@extend %bgCenter;
 				}
 				&.tabbar_info {
 					background-image: url('../assets/imgs/info.png');
 					@extend %bgCenter;
 				}
+			}
+			& > p {
+				font-size: 0.27rem;
 			}
 			&.active {
 				& > i {
@@ -77,7 +83,7 @@
 						@extend %bgCenter;
 					}
 					&.tabbar_discovery {
-						background-image: url('../assets/imgs/cart_on.png');
+						background-image: url('../assets/imgs/discovery_on.png');
 						@extend %bgCenter;
 					}
 					&.tabbar_info {

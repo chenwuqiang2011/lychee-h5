@@ -1,8 +1,57 @@
 <template>
 	<div class="home">
-		<div class="header">头部</div>
+		<div class="header">
+			<div class="header_l">
+				<span v-text = "city"></span>
+				<i class = "triangle_down"></i>
+			</div>
+			<div class="header_r">
+				<i class = "search_icon"></i>
+				<span>搜索商品</span>
+			</div>
+		</div>
 		<div class="content">
-			<div class="content_body">{{id}}</div>
+			<div class="content_body">
+				<!-- 轮播图 -->
+				<div class="lamp">
+					<swiper :options="swiperOption" ref="mySwiper" >
+					    <!-- slides -->
+					    <swiper-slide><img src="../../assets/imgs/iPhone-8.jpg" alt = ""></swiper-slide>
+					    <swiper-slide><img src="../../assets/imgs/iPhone-x.jpg" alt = ""></swiper-slide>
+					    <!-- Optional controls -->
+					    <div class="swiper-pagination"  slot="pagination"></div>
+					    <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
+					    <!-- <div class="swiper-button-next" slot="button-next"></div> -->
+					    <!-- <div class="swiper-scrollbar"   slot="scrollbar"></div> -->
+					</swiper>
+				</div>
+				<!-- 分类图标 -->
+				<div class="category">
+					<div class="xyzj">
+						<i class = "icon icon_zj"></i>
+						<p>信用租机</p>
+					</div>
+					<div class="xyzj">
+						<i class = "icon icon_fare"></i>
+						<p>电话费</p>
+					</div>
+					<div class="xyzj">
+						<i class = "icon icon_tv"></i>
+						<p>电视机</p>
+					</div>
+					<div class="xyzj">
+						<i class = "icon icon_router"></i>
+						<p>路由器</p>
+					</div>
+				</div>
+				<!-- 商品列表 -->
+				<div class="goods">
+					<h1>推荐机型</h1>
+					<ul class="goodslist">
+						<li></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<!-- <div class="footer">底部</div> -->
 		<tabbar :name = '"home"'></tabbar>
@@ -20,6 +69,32 @@
 		data () {
 			return {
 				id: 123
+				city: '广州',
+				swiperOption: {
+					pagination: {
+					    el: '.swiper-pagination',
+					    bulletElement : 'li',
+					},
+					autoplay: {
+					   delay: 3000,
+					   stopOnLastSlide: false,
+					   disableOnInteraction: false,
+					},
+					loop: true,
+					coverflow: {
+					　　rotate: 30,
+					　　stretch: 10,
+					　　depth: 60,
+					　　modifier: 2,
+					　　slideShadows : true
+					}
+				},
+				goodslist: [
+					{
+						imgurl: '../../assets/imgs/s7.png',
+						name: ''
+					}
+				]
 			}
 		},
 		created () {
