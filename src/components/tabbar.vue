@@ -1,6 +1,6 @@
 <template>
 	<div class="tabbar">
-		<div class="tabbar_item" :class="{active: name==='home'}" @click = "$router.push('/home')">
+		<div class="tabbar_item" :class="{active: name==='home'}" @click = "$router.push({name:'home', query:{id: id}})">
 			<i class = "tabbar_home"></i>
 			<p>首页</p>
 		</div>
@@ -23,11 +23,14 @@
 		},
 		data(){
 			return {
-
+				id: 1
 			}
 		},
 		method: {
 
+		},
+		created(){
+		
 		}
 	}
 </script>
