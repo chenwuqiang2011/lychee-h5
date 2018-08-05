@@ -13,13 +13,12 @@
 		flex: 1;
 		font-size: 0.53rem;
 		background: blue;
-		min_width: 10.0rem;
+		min-width: 10.0rem;
 		overflow-y: auto;
 		&::-webkit-scrollbar {
 	        display: none;
 	    }
 		.content_body {
-			height: 10000px;
 			padding-bottom: 1.33rem;
 		}
 	}

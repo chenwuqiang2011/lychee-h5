@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import home from '@/components/home/home';
-import discovery from '@/components/discovery/discovery';
-import info from '@/components/info/info';
 
 Vue.use(Router)
 
@@ -17,17 +14,25 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: home
+      component: resolve => require(['@/components/home/home'], resolve)
     },
     {
       path: '/discovery',
       name: 'discovery',
-      component: discovery
+      component: resolve => require(['../components/discovery/discovery'], resolve)
     },
     {
       path: '/info',
       name: 'info',
-      component: info
+      component: resolve => require(['../components/info/info'], resolve)
+    },
+    {
+      path: '/goodsDetail',
+      name: 'goodsDetail',
+      meta: {
+        title: '商品详情'
+      },
+      component: resolve => require(['../components/goodsDetail/goodsDetail'], resolve)
     }
   ]
 })

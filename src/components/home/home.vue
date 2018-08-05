@@ -10,7 +10,7 @@
 				<span>搜索商品</span>
 			</div>
 		</div>
-		<div class="content">
+		<div class="content" ref = "wrapper">
 			<div class="content_body">
 				<!-- 轮播图 -->
 				<div class="lamp">
@@ -26,7 +26,7 @@
 					</swiper>
 				</div>
 				<!-- 分类图标 -->
-				<div class="category">
+				<div class="category" @click = "abc">
 					<div class="xyzj">
 						<i class = "icon icon_zj"></i>
 						<p>信用租机</p>
@@ -47,9 +47,9 @@
 				<!-- 商品列表 -->
 				<div class="goods">
 					<h1>推荐机型</h1>
-					<ul class="goodslist">
-						<li></li>
-					</ul>
+					<goodslist :goodslist = "goodslist"></goodslist>
+					<h1>热销套餐</h1>
+					<packageHot></packageHot>
 				</div>
 			</div>
 		</div>
@@ -60,15 +60,23 @@
 <script>
 	import './home.scss';
 	import tabbar from '../tabbar.vue';
+	import goodslist from '../goodslist.vue';
+	import packageHot from '../package_hot.vue';
+	import url from '../../assets/common/common.js';
+	import api from '../../api/api.js';
+	import Bscroll from 'better-scroll';
 
 	export default {
 		name: 'home',
 		components: {
-			tabbar
+			tabbar,
+			goodslist,
+			packageHot
 		},
 		data () {
 			return {
-				id: 123
+				id: 123,
+				goodslist: [],
 				city: '广州',
 				swiperOption: {
 					pagination: {
@@ -89,12 +97,7 @@
 					　　slideShadows : true
 					}
 				},
-				goodslist: [
-					{
-						imgurl: '../../assets/imgs/s7.png',
-						name: ''
-					}
-				]
+				imgurl: url.global.imgurl
 			}
 		},
 		created () {
@@ -103,10 +106,27 @@
 		mounted () {
 			var id = this.$route.query.id;
 			this.id = id;
-			console.log(id)
+			// console.log(id);
+			// console.log(this.$route, this.$router);
+			// var a = api.abc(0);
+			// a.then(function(res) {
+			// 	console.log(res)
+			// }).catch(res => {
+			// 	console.log(res);
+			// });
+			// api.a();
+			api.queryProducts({pageNo: 5, qty: 15}).then(res => {
+				console.log(res);
+				this.goodslist = res.data.data;
+			});
+			//better-scroll;
+			this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
+			
 		},
-		method: {
-
+		methods: {
+			abc () {
+				console.log(123)
+			}
 		}
 	}
 	

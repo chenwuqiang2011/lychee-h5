@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive>
       <router-view></router-view>
+  
+    <keep-alive>
+      <!-- <router-view></router-view> -->
     </keep-alive>
     <!-- <spinner v-show="false"></spinner> -->
   </div>
@@ -20,11 +22,15 @@
 </script>
 
 <style>
-/*body, html {
-  max-width: 768px;
-  height: 100%;
-  margin: 0 auto;
-}*/
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/*点击事件去除阴影*/
+*{ 
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-webkit-tap-highlight-color: transparent; /* For some Androids */ }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

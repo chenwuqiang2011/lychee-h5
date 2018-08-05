@@ -1,0 +1,243 @@
+@import '../../assets/style/base/base.scss';
+@import '../../assets/style/color/color.scss';
+.goodsDetail {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	@extend %flexColumn;
+	.fixed_top {
+		height: 1.2rem;
+	}
+	.goodsDetail_content {
+		flex: 1;
+		overflow-y: auto;
+		background: $bodyColor;
+		.content {
+			width: 100%;
+			.goodsDetail_lamp {
+				background: #fff;
+				height: 6.2rem;
+				border-bottom: 0.01rem solid #ddd;
+				padding-bottom: 0.27rem;
+				.swiper-container {
+					width: 100%;
+					height: 100%;
+					padding-top: 0.27rem;
+					img {
+						max-width: 100%;
+						display: block;
+						margin: 0 auto;
+					}
+				}
+			}
+			.goods_desc {
+				background: #fff;
+				padding: 0 0.27rem;
+				& > p {
+					font-size: 0.37rem;
+					line-height: 1.23rem;
+					width: 100%;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+				& > .price_collect {
+					@extend %flexRow;
+					padding-bottom: 0.53rem;
+					& > .price {
+						font-size: 0.35rem;
+						color: #f5475f;
+						&:before {
+							content: '￥'
+						}
+					}
+					& > .collect {
+						flex: 1;
+						@extend %flexRow;
+						justify-content: flex-end;
+						align-items: center;
+						padding-right: 0.27rem;
+						& > i {
+							display: block;
+							width: 0.53rem;
+							height: 0.53rem;
+							margin-right: 0.2rem;
+							background: url('../../assets/imgs/collect.png') no-repeat;
+							background-size: cover;
+							&.active {
+								background: url('../../assets/imgs/collect_active.png') no-repeat;
+								background-size: cover;
+							}
+						}
+					}
+				}
+			}
+			// 商品规格
+			.goods_size {
+				margin-top: 0.27rem;
+				background: #fff;
+				padding: 0 0.27rem;
+				font-size: 0.35rem;
+				line-height: 0.67rem;
+				.size_item {
+					min-height: 1.6rem;
+					border-bottom: 0.01rem solid #ddd;
+					@extend %flexRow;
+					align-items: center;
+					&:last-child {
+						border-bottom: none;
+					}
+					& > p {
+						width: 1.13rem;
+						color: #989898;
+						&.stock {
+							width: 2.0rem;
+							margin-left: 0.27rem;
+							& > span {
+								margin-left: 0.13rem;
+							}
+						}
+					}
+					& > ul {
+						flex: 1;
+						@extend %flexRow;
+						& > li {
+							width: 1.47rem;
+							height: 0.67rem;
+							text-align: center;
+							border: 0.01rem solid #ddd;
+							border-radius: 0.13rem;
+							margin-right: 0.27rem;
+							&.active {
+								background: #f5475f;
+								color: #fff;
+							}
+						}
+					}
+				}
+			}
+			//商品套餐
+			.goods_package {
+				padding: 0 0.27rem;
+				margin-top: 0.27rem;
+				background: #fff;
+				height: 1.47rem;
+				line-height: 1.47rem;
+				@extend %flexRow;
+				align-items: center;
+				& > span {
+					display: block;
+					min-width: 1.13rem;
+					font-size: 0.35rem;
+				}
+				& > p {
+					flex: 1;
+					color: #989898;
+					font-size: 0.34rem;
+				}
+				& > i {
+					display: block;
+					width: 0.4rem;
+					height: 0.4rem;
+					background: url('../../assets/imgs/right.png') no-repeat;
+					background-size: cover;
+				}
+
+			}
+			.show_package {
+				position: fixed;
+				z-index: 999;
+				width: 100%;
+				height: 100%;
+				left: 0;
+				bottom: 0;
+				& > .mask {
+					width: 100%;
+					height: 100%;
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					background: #000;
+					opacity: 0.5;
+					overflow: hidden;
+				}
+				& > .packages {
+					position: absolute;
+					left: 0; 
+					bottom: 1.2rem;
+					height: 8.0rem;
+					width: 100%;
+					background: #fff;
+					z-index: 9999;
+					@extend %flexColumn;
+					.el-tabs__nav {
+						width: 100%;
+						.el-tabs__item {
+							width: 50%;
+							text-align: center;
+						}
+						.el-tab-pane {
+							overflow-y: auto;
+						}
+					}
+					.el-tabs__content {
+						flex: 1;
+						.el-tab-pane {
+							height: 100%;
+							overflow-y: auto;
+						}
+					}
+				}
+				& > p {
+					@extend .packages;
+					background: #f5475f;
+					color: #fff;
+					bottom: 0;
+					height: 1.2rem;
+					line-height: 1.2rem;
+					text-align: center;
+				}
+			}
+		}
+	}
+	.fixed_bottom {
+		height: 1.2rem;
+		@extend %flexRow;
+		& > div {
+			flex: 1;
+			&.fixed_bottom_l {
+				padding-left: 0.27rem;
+				@extend %flexColumn;
+				justify-content: center;
+
+				& > p {
+					font-size: 0.37rem;
+					color: #f5475f;
+					&.total {
+						font-size: 0.43rem;
+						font-weight: bolder;
+						&:before {
+							content: '￥';
+						}
+						&:after {
+							content: '元';
+						}
+					}
+				}
+			}
+			&.fixed_bottom_r  {
+				text-align: center;
+				line-height: 1.2rem;
+				background: #f5475f;
+				color: #fff;
+				font-size: 0.43rem;
+			}
+		}
+	}
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}

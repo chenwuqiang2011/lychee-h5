@@ -26,8 +26,10 @@
 				id: 1
 			}
 		},
-		method: {
-
+		methods: {
+			abc () {
+				console.log(123)
+			}
 		},
 		created(){
 		
@@ -47,6 +49,7 @@
 		// width: 100%;
 		height: 1.33rem;
 		background: $footBgColor;
+		border-top: 0.01rem solid #b5b5b6;
 		@extend %flexRow;
 		& > div {
 			flex: 1;
