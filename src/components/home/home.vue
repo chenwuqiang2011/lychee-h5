@@ -120,7 +120,7 @@
 				this.goodslist = res.data.data;
 			});
 			//better-scroll;
-			this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
+			// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
 			
 		},
 		methods: {

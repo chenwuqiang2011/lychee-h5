@@ -31,14 +31,15 @@
 		},
 		methods: {
 			choosed (idx) {
-				this.index = idx; 
+				this.index = idx;
+				this.$emit('choose', '融合套餐' + idx); 
 			}
 		}
 	}
 </script>
 <style lang="scss" scoped="">
 	.package {
-		margin-top: 0.53rem;
+		// margin-top: 0.53rem;
 		padding-bottom: 0.27rem;
 		& > div {
 			height: 2.67rem;

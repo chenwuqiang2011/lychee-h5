@@ -33,6 +33,14 @@ export default new Router({
         title: '商品详情'
       },
       component: resolve => require(['../components/goodsDetail/goodsDetail'], resolve)
+    },
+    {
+      path: '/test',
+      name: 'test',
+      meta: {
+        title: '商品详情'
+      },
+      component: resolve => require(['../components/test'], resolve)
     }
   ]
 })

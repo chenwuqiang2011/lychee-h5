@@ -5,7 +5,7 @@
 			<back :title = "title"></back>
 		</div>
 		<!-- 显示区域 -->
-		<div class="goodsDetail_content"  ref = "wrapper">	
+		<div class="goodsDetail_content">	
 			<div class="content">
 				<div class="goodsDetail_lamp">
 					<swiper :options="swiperOption" ref="mySwiper" >
@@ -17,8 +17,8 @@
 					<p v-text = "goods.name"></p>
 					<div class="price_collect">
 						<span class = "price" v-text = "goods.nowPrice"></span>
-						<div class="collect" @click = "choose = !choose">
-							<i :class = "choose? 'active' : '' "></i>
+						<div class="collect" @click = "collected = !collected">
+							<i :class = "collected? 'active' : '' "></i>
 							<span>收藏</span>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 				<!-- 商品规格 -->
 				<div class="goods_size">
 					<div class="size_item">
-						<p>容量</p>
+						<p>容量{{qty}}</p>
 						<ul>
 							<li :class = "index == 1? 'active' : '' " @click = "index = 1">32G</li>
 							<li :class = "index == 2? 'active' : '' " @click = "index = 2">64G</li>
@@ -42,7 +42,13 @@
 					</div>
 					<div class="size_item">
 						<p>数量</p>
-						<el-input-number v-model="qty" @change="handleChange" :min="1" size="small" ></el-input-number>
+						<el-input-number v-model="qty" @change="handleChange" :min="1" size="small"></el-input-number>
+					<!-- 	<div>
+							<span>-</span>
+							<el-input v-model="qty" placeholder="请输入内容"></el-input>
+							<input type="" name="">
+							<span>+</span>
+						</div> -->
 						<p class = "stock">库存<span>256</span></p>
 						
 					</div>	
@@ -50,7 +56,7 @@
 				<!-- 商品套餐 -->
 				<div class="goods_package" @click = "showPackage">
 					<span>套餐</span>
-					<p>99单产品</p>
+					<p v-text = "userChoosed"></p>
 					<i></i>	
 				</div>
 			
@@ -74,11 +80,11 @@
 			<div class="show_package" v-show = "show">
 				<div class="mask" @click = "showPackage"></div>
 				<el-tabs v-model="activeName" @tab-click="handleClick" class = "packages">
-					<el-tab-pane label="融合套餐" name="first">
+					<el-tab-pane label="融合套餐" name="first"  >
 						<doublePackage @choose = "select"></doublePackage>
 					</el-tab-pane>
-					<el-tab-pane label="单产品套餐" name="second">
-						<singlePackage :show = "false"></singlePackage>
+					<el-tab-pane label="单产品套餐" name="second" >
+						<singlePackage :show = "false" @choose = "select"></singlePackage>
 					</el-tab-pane>
 				</el-tabs>
 				
@@ -116,10 +122,11 @@
 		data () {
 			return {
 				title: '商品详情',
-				total: 0,
+				total: 0, //总价
 				qty: 1,
 				goods: {},
-				choose: false,
+				collected: false, //收藏
+				userChoosed: '请选择套餐',
 				index: 1,
 				index2: 1,
 				activeName: 'first',
@@ -156,21 +163,16 @@
 				console.log(res);
 				this.goods = res.data.data[0];
 				this.total = res.data.data[0].nowPrice;
+				
 			});
 		},
 		mounted () {
-			//better-scroll;import Bscroll from 'better-scroll';
-			this.$nextTick(() => { 
-				this.scroll = new Bscroll(this.$refs.wrapper, { 
-					click : true, 
-					mouseWheel: true,
-					taps: true
-				}) 
-			});
+			
 		},
 		methods: {
 			select (data) {
 				console.log('调用成功了！', data);
+				this.userChoosed = data;
 			},
 			handleChange (val) {
 				console.log(val, this.qty);
@@ -182,8 +184,6 @@
 			},
 			showPackage () {
 				this.show = !this.show;
-				// this.scroll.refresh();
-				// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.abc, { click : true, change: true}) });
 			},
 			handleClick(tab, event) {
 		        console.log(tab, event);
