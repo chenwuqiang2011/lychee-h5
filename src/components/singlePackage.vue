@@ -1,16 +1,16 @@
 <template>
 	<div class="package">
-		<div class="package_99" :class = "show ? '' : 'red_border'" @click = "choosed(1)" >
+		<div class="package_99" :class = "{'red_border': !show, 'active': index == 1}" @click = "choosed(1)" >
 			<h2>天翼单产品套餐<span>99元</span></h2>
 			<p>1.5G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
 			<span v-if = "show"><i>HOT</i></span>
 		</div>
-		<div class="package_199" :class = "show ? '' : 'red_border'"  @click = "choosed(2)">
+		<div class="package_199" :class = "{'red_border': !show, 'active': index == 2}"  @click = "choosed(2)">
 			<h2>天翼单产品套餐<span>199元</span></h2>
 			<p>100M光纤宽带，4G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶2000分钟，转换短信封顶500条</p>
 			<span v-if = "show"><i>HOT</i></span>
 		</div>
-		<div class="package_169" :class = "show ? '' : 'red_border'" @click = "choosed(3)">
+		<div class="package_169" :class = "{'red_border': !show, 'active': index == 3}" @click = "choosed(3)">
 			<h2>天翼单产品套餐<span>169元</span></h2>
 			<p>50M光纤宽带，3G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
 			<span v-if = "show"><i>HOT</i></span>
