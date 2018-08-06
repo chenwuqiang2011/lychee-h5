@@ -1,30 +1,38 @@
 <template>
 	<div class="package">
-		<div class="package_99" @click = "choosed">
+		<div class="package_99" :class = "show ? '' : 'red_border'" @click = "choosed(1)" >
 			<h2>天翼单产品套餐<span>99元</span></h2>
 			<p>1.5G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
-			<span><i>HOT</i></span>
+			<span v-if = "show"><i>HOT</i></span>
 		</div>
-		<div class="package_199">
+		<div class="package_199" :class = "show ? '' : 'red_border'"  @click = "choosed(2)">
 			<h2>天翼单产品套餐<span>199元</span></h2>
 			<p>100M光纤宽带，4G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶2000分钟，转换短信封顶500条</p>
-			<span><i>HOT</i></span>
+			<span v-if = "show"><i>HOT</i></span>
 		</div>
-		<div class="package_169">
+		<div class="package_169" :class = "show ? '' : 'red_border'" @click = "choosed(3)">
 			<h2>天翼单产品套餐<span>169元</span></h2>
 			<p>50M光纤宽带，3G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
-			<span><i>HOT</i></span>
+			<span v-if = "show"><i>HOT</i></span>
 		</div>
 	</div>
 </template>
 <script>
 	export default {
+		props: {
+			show: {
+				type: Boolean,
+				default: true
+			}
+		},
+		data () {
+			return {
+				index: 1
+			}
+		},
 		methods: {
-			abc () {
-				console.log(123)
-			},
-			choosed () {
-				this.$emit ('choose', 'abc');
+			choosed (idx) {
+				this.index = idx; 
 			}
 		}
 	}
@@ -42,7 +50,13 @@
 			margin-bottom: 0.37rem;
 			position: relative;
 			overflow: hidden;
-			&:nth-of-type(3){
+			&.red_border {
+				border: 1px solid #ccc;
+			}
+			&.active {
+				border: 1px solid #f64d6c;
+			}
+			&:last-child {
 				margin-bottom: 0;
 			}
 			& > h2 {
@@ -50,7 +64,8 @@
 				font-size: 0.37rem;
 				& > span {
 					color: #fe4460;
-					margin-left: 0.13rem;
+					margin: 0 0.13rem;
+					font-weight: bolder;
 				}
 			}
 			& > p {

@@ -42,7 +42,7 @@
 					</div>
 					<div class="size_item">
 						<p>数量</p>
-						<el-input-number v-model="qty" @change="handleChange" :min="1" size="small"></el-input-number>
+						<el-input-number v-model="qty" @change="handleChange" :min="1" size="small" ></el-input-number>
 						<p class = "stock">库存<span>256</span></p>
 						
 					</div>	
@@ -51,24 +51,9 @@
 				<div class="goods_package" @click = "showPackage">
 					<span>套餐</span>
 					<p>99单产品</p>
-					<i></i>
-					
+					<i></i>	
 				</div>
-				<transition name="fade">
-				
-					<div class="show_package" v-show = "show" @touchmove.prevent>
-						<div class="mask" @click = "showPackage"></div>
-						<el-tabs v-model="activeName" @tab-click="handleClick" class = "packages">
-							<el-tab-pane label="融合套餐" name="first">
-								<packages></packages>
-							</el-tab-pane>
-							<el-tab-pane label="单产品套餐" name="second">
-								<packages></packages>
-							</el-tab-pane>
-						</el-tabs>
-						<p @click = "showPackage">完成</p>
-					</div>
-				</transition>
+			
 				<!-- 商品参数 -->
 				<div class="goods_package">
 					<span>产品参数</span>
@@ -79,8 +64,27 @@
 				<div class="goods_package">
 					<span>图文详情</span>
 				</div>
+				<div class="img_text">
+					<img src="../../assets/imgs/s7.png" alt = "">
+				</div>
 			</div>
 		</div>
+		<transition name="fade">
+		
+			<div class="show_package" v-show = "show">
+				<div class="mask" @click = "showPackage"></div>
+				<el-tabs v-model="activeName" @tab-click="handleClick" class = "packages">
+					<el-tab-pane label="融合套餐" name="first">
+						<doublePackage @choose = "select"></doublePackage>
+					</el-tab-pane>
+					<el-tab-pane label="单产品套餐" name="second">
+						<singlePackage :show = "false"></singlePackage>
+					</el-tab-pane>
+				</el-tabs>
+				
+				<p @click = "showPackage">完成</p>
+			</div>
+		</transition>
 
 		<!-- 底部固定条 -->
 		<div class="fixed_bottom">
@@ -95,6 +99,8 @@
 <script>
 	import back from '../back.vue';
 	import packages from '../package_hot.vue';
+	import singlePackage from '../singlePackage.vue';
+	import doublePackage from '../doublePackage.vue';
 	import url from '../../assets/common/common.js';
 	import api from '../../api/api.js';
 	import Bscroll from 'better-scroll';
@@ -103,7 +109,9 @@
 	export default {
 		components: {
 			back,
-			packages
+			packages,
+			doublePackage,
+			singlePackage
 		},
 		data () {
 			return {
@@ -152,9 +160,18 @@
 		},
 		mounted () {
 			//better-scroll;import Bscroll from 'better-scroll';
-			this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
+			this.$nextTick(() => { 
+				this.scroll = new Bscroll(this.$refs.wrapper, { 
+					click : true, 
+					mouseWheel: true,
+					taps: true
+				}) 
+			});
 		},
 		methods: {
+			select (data) {
+				console.log('调用成功了！', data);
+			},
 			handleChange (val) {
 				console.log(val, this.qty);
 				this.total = (this.qty * this.goods.nowPrice).toFixed(2);
@@ -165,6 +182,8 @@
 			},
 			showPackage () {
 				this.show = !this.show;
+				// this.scroll.refresh();
+				// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.abc, { click : true, change: true}) });
 			},
 			handleClick(tab, event) {
 		        console.log(tab, event);
