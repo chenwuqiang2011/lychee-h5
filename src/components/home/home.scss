@@ -33,25 +33,6 @@
 		}
 		.header_r {
 			flex: 1;
-			background: #fff;
-			border-radius: 0.36rem;
-			height: 0.72rem;
-			line-height: 0.72rem;
-			padding: 0 0.36rem;
-			color: #989898;
-			& > i {
-				float: left;
-				display: inline-block;
-				width: 0.37rem;
-				height: 0.37rem;
-				margin-top: 0.17rem;
-				background: url('../../assets/imgs/search.png') no-repeat;
-				background-size: cover;
-			}
-			& > span {
-				float: left;
-				margin-left: 0.16rem;
-			}
 		}
 	}
 	.content {

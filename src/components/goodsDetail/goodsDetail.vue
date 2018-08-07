@@ -28,16 +28,16 @@
 					<div class="size_item">
 						<p>容量{{qty}}</p>
 						<ul>
-							<li :class = "index == 1? 'active' : '' " @click = "index = 1">32G</li>
-							<li :class = "index == 2? 'active' : '' " @click = "index = 2">64G</li>
+							<li :class = "index == 1? 'active' : '' " @click = "getCapacity" data-index = '1'>32G</li>
+							<li :class = "index == 2? 'active' : '' " @click = "getCapacity" data-index = '2'>64G</li>
 						</ul>
 					</div>
 					<div class="size_item">
 						<p>颜色</p>
 						<ul>
-							<li :class = "index2 == 1? 'active' : '' " @click = "index2 = 1">玫瑰金</li>
-							<li :class = "index2 == 2? 'active' : '' " @click = "index2 = 2">白色</li>
-							<li :class = "index2 == 3? 'active' : '' " @click = "index2 = 3">黑色</li>
+							<li :class = "index2 == 1? 'active' : '' " @click = "getColor" data-index2 = '1'>玫瑰金</li>
+							<li :class = "index2 == 2? 'active' : '' " @click = "getColor" data-index2 = '2'>白色</li>
+							<li :class = "index2 == 3? 'active' : '' " @click = "getColor" data-index2 = '3'>黑色</li>
 						</ul>
 					</div>
 					<div class="size_item">
@@ -56,7 +56,7 @@
 				<!-- 商品套餐 -->
 				<div class="goods_package" @click = "showPackage">
 					<span>套餐</span>
-					<p v-text = "userChoosed"></p>
+					<p v-text = "userChoosed || '请选择套餐' "></p>
 					<i></i>	
 				</div>
 			
@@ -121,12 +121,15 @@
 		},
 		data () {
 			return {
+				id: null,
+				capacity: null, //商品容量
+				color: null, //商品颜色
 				title: '商品详情',
 				total: 0, //总价
 				qty: 1,
 				goods: {},
 				collected: false, //收藏
-				userChoosed: '请选择套餐',
+				userChoosed: '',
 				index: 1,
 				index2: 1,
 				activeName: 'first',
@@ -154,16 +157,17 @@
 			}
 		},
 		created () {
-			var id = this.$route.query.id;
+			this.id = this.$route.query.id
 			//标题；
 			// if (to.meta.title) {
 			//     document.title = to.meta.title;
 			// }
-			api.getProduct({id: id}).then(res => {
+			api.getProduct({id: this.id}).then(res => {
 				console.log(res);
 				this.goods = res.data.data[0];
 				this.total = res.data.data[0].nowPrice;
-				
+				this.capacity = '32G';
+				this.color = '白色';
 			});
 		},
 		mounted () {
@@ -174,13 +178,43 @@
 				console.log('调用成功了！', data);
 				this.userChoosed = data;
 			},
+			getCapacity (e) {console.log(e, e.target.innerHTML)
+				this.index = e.target.dataset.index;
+				this.capacity = e.target.innerHTML;
+
+			},
+			getColor (e) {
+				this.index2 = e.target.dataset.index2;
+				this.color = e.target.innerHTML;
+
+			},
 			handleChange (val) {
 				console.log(val, this.qty);
 				this.total = (this.qty * this.goods.nowPrice).toFixed(2);
 
 			},
 			next () {
-				console.log(this.index, this.index2, this.choose, typeof this.total, this.qty)
+				/*
+					1、商品图片、商品ID、商品名称、总价;
+					2、选择的商品规格（容量、颜色、套餐）；
+				*/
+				var option = {
+					ID: this.id,
+					capacity: this.capacity,
+					color: this.color,
+					total: this.total,
+					package: this.userChoosed
+				};
+				console.log(option)
+				console.log(this.index, this.index2, this.collected, typeof this.total, this.qty);
+				if(!this.userChoosed) {
+					this.$message({
+						message: '请选择套餐',
+						type: 'warning'
+					});
+					return false;
+				}
+				this.$router.push({name: 'rentDetail', query: option});
 			},
 			showPackage () {
 				this.show = !this.show;

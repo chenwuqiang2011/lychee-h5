@@ -1,0 +1,136 @@
+@import '../../assets/style/base/base.scss';
+@import '../../assets/style/color/color.scss';
+.rentDetail {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	@extend %flexColumn;
+	.fixed_top {
+		height: 1.2rem;
+	}
+	.rentMsg {
+		flex: 1;
+		background: $bodyColor;
+		@extend %flexColumn;
+		/* 提交后的二维码样式 */
+		.ewmMsg {
+			background: #fff;
+			height: 6.4rem;
+			@extend %flexColumn;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 0.27rem;
+			img {
+				width: 4.13rem;
+				height: 4.13rem;
+				display: block;
+			}
+			p {
+				font-size: 0.37rem;
+				line-height: 0.37rem;
+				margin-top: 0.29rem;
+				text-align: center;
+			}
+		}
+		.userMsg {
+			background: #fff;
+
+			padding: 0 0.27rem;
+			h3 {
+				font-size: 0.37rem;
+				height: 1.33rem;
+				line-height: 1.33rem;
+				font-weight: bolder;
+			}
+			.userMsgDetail {
+				border-top: 0.01rem solid #ccc;
+				padding: 0.16rem 0.27rem;
+				p {
+					font-size: 0.37rem;
+					line-height: 0.88rem;
+				}
+			}
+		}
+		.phoneMsg {
+			@extend .userMsg;
+			padding: 0;
+			margin-top: 0.27rem;
+			flex: 1;
+			@extend %flexColumn;
+			h3 {
+				@extend h3;
+				padding: 0 0.27rem;
+			}
+			.phoneMsgDetail {
+				@extend %flexRow;
+				background: $bodyColor;
+				padding: 0.27rem;
+				height: 2.67rem;
+				align-items: center;
+				.phoneMsgDetail_l {
+					width: 2.67rem;
+					height: 100%;
+					img {
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.phoneMsgDetail_r {
+					flex: 1;
+					padding-left: 0.27rem;
+					@extend %flexColumn;
+					justify-content: center;
+					h2 {
+						font-size: 0.37rem;
+						line-height: 0.53rem;
+						height: 1.07rem;
+						// 超出隐藏
+						overflow: hidden;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						-webkit-box-orient: vertical;
+					}
+					p {
+						font-size: 0.32rem;
+						line-height: 0.48rem;
+					}
+				}
+				
+			}
+			.congratulate {
+				flex: 1;
+				@extend %flexColumn;
+				justify-content: center;
+				align-items: center;
+				p {
+					text-align: center;
+					font-size: 0.45rem;
+					line-height: 0.8rem;
+					color: #565656;
+					span {
+						margin-left: 0.13rem;
+						&:before {
+							content: '￥';
+						}
+						&:after {
+							content: '元';
+						}
+					}
+				}
+				button {
+					width: 90%;
+					margin-top: 0.67rem;
+					border: none;
+					border-radius: 0.13rem;
+					background: #f5475f;
+					height: 1.2rem;
+					line-height: 1.2rem;
+					font-size: 0.45rem;
+					color: #fff;
+					letter-spacing: 0.27rem;
+				}
+			}
+		}
+	}
+}

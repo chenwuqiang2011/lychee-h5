@@ -1,0 +1,68 @@
+@import '../../assets/style/base/base.scss';
+@import '../../assets/style/color/color.scss';
+.phoneList {
+	width: 100%;
+	height: 100%;
+	@extend %flexColumn;
+	.phone_head {
+		.phone_search {
+			height: 1.2rem;
+			background: $headBgColor;
+			@extend %flexRow;
+			align-items: center;
+			.back_icon {
+				margin-left: 0.27rem;
+				display: block;
+				width: 0.6rem;
+				height: 0.6rem;
+				background: url('../../assets/imgs/back.png') no-repeat;
+				background-size: cover;
+			}
+			.phone_search_r {
+				flex: 1;
+				padding: 0 0.27rem;
+			}
+		}
+		.phone_sort {
+			height: 1.47rem;
+			padding: 0.27rem;
+			box-sizing: border-box;
+			border-bottom: 0.01rem solid #ccc;	
+			@extend %flexRow;
+			.phone_sort_item {
+				flex: 1;
+				font-size: 0.37rem;
+				text-align: center;
+				height: 100%;
+				@extend %flexRow;
+				justify-content: center;
+				align-items: center;
+				border-right: 0.01rem solid #ccc;
+				&:last-child {
+					border-right: none;
+				}
+				.up_and_down {
+					display: block;
+					width: 0.37rem;
+					height: 0.37rem;
+					margin-left: 0.27rem;
+					background: url('../../assets/imgs/up_and_down.png') no-repeat;
+					background-size: cover;
+				}
+				.filter {
+					@extend .up_and_down;
+					background: url('../../assets/imgs/filter.png') no-repeat;
+					background-size: cover;
+
+				}
+
+			}
+		}
+	}
+	.phone_body {
+		flex: 1;
+		padding: 0.27rem;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+}

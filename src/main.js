@@ -6,6 +6,8 @@ import router from './router'
 
 Vue.config.productionTip = false;
 
+import $ from 'jquery';
+
 //引入flexible;
 import './assets/js/flexible';
 

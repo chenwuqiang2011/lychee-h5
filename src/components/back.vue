@@ -1,6 +1,6 @@
 <template>
-	<div class="back">
-		<i></i>
+	<div class="back" >
+		<i @click = "back"></i>
 		<h5 v-text = "title"></h5>
 	</div>
 </template>
@@ -10,6 +10,11 @@
 			title: {
 				type: String,
 				default: ''
+			}
+		},
+		methods: {
+			back () {
+				this.$router.go(-1);
 			}
 		}
 	}

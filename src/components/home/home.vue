@@ -6,8 +6,7 @@
 				<i class = "triangle_down"></i>
 			</div>
 			<div class="header_r">
-				<i class = "search_icon"></i>
-				<span>搜索商品</span>
+				<search :placeholder = "'搜索商品'"></search>
 			</div>
 		</div>
 		<div class="content" ref = "wrapper">
@@ -60,6 +59,7 @@
 <script>
 	import './home.scss';
 	import tabbar from '../tabbar.vue';
+	import search from '../search.vue';
 	import goodslist from '../goodslist.vue';
 	import packageHot from '../package_hot.vue';
 	import url from '../../assets/common/common.js';
@@ -70,6 +70,7 @@
 		name: 'home',
 		components: {
 			tabbar,
+			search,
 			goodslist,
 			packageHot
 		},

@@ -12,27 +12,59 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/home',
+      path: '/home',//主页
       name: 'home',
       component: resolve => require(['@/components/home/home'], resolve)
     },
     {
-      path: '/discovery',
+      path: '/discovery',//发现
       name: 'discovery',
       component: resolve => require(['../components/discovery/discovery'], resolve)
     },
     {
-      path: '/info',
+      path: '/info',//我的
       name: 'info',
       component: resolve => require(['../components/info/info'], resolve)
     },
     {
-      path: '/goodsDetail',
+      path: '/goodsDetail',//商品详情
       name: 'goodsDetail',
       meta: {
         title: '商品详情'
       },
       component: resolve => require(['../components/goodsDetail/goodsDetail'], resolve)
+    },
+    {
+      path: '/rentDetail',//租机详情
+      name: 'rentDetail',
+      meta: {
+        title: '租机信息'
+      },
+      component: resolve => require(['../components/goodsDetail/rentDetail'], resolve)
+    },
+    {
+      path: '/rentDetailEwm',//提交租机详情
+      name: 'rentDetailEwm',
+      meta: {
+        title: '租机信息'
+      },
+      component: resolve => require(['../components/goodsDetail/rentDetailEwm'], resolve)
+    },
+    {
+      path: '/phoneList',//租机分类 
+      name: 'phoneList',
+      meta: {
+        title: '信用租机'
+      },
+      component: resolve => require(['../components/phoneList/phoneList'], resolve)
+    },
+    {
+      path: '/phoneFilter',//租机分类 
+      name: 'phoneFilter',
+      meta: {
+        title: '信用租机'
+      },
+      component: resolve => require(['../components/phoneList/phoneFilter'], resolve)
     },
     {
       path: '/test',

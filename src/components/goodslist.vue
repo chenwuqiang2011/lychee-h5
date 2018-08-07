@@ -64,7 +64,7 @@
 					line-height: 0.6rem;
 					height: 1.2rem;
 					// 超出隐藏
-					overflow : hidden;
+					overflow: hidden;
 					text-overflow: ellipsis;
 					display: -webkit-box;
 					-webkit-line-clamp: 2;

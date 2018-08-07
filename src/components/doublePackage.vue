@@ -26,7 +26,7 @@
 	export default {
 		data () {
 			return {
-				index: 1
+				index: 0
 			}
 		},
 		methods: {
