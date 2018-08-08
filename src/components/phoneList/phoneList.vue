@@ -2,7 +2,7 @@
 	<div class="phoneList">
 		<div class="phone_head">
 			<div class="phone_search">
-				<i class = "back_icon"></i>
+				<i class = "back_icon" @click = "$router.go(-1)"></i>
 				<div class = "phone_search_r">
 					<search :placeholder = "'搜索商品'"></search>
 				</div>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<loading v-if = "show"></loading>
-		<slideBar></slideBar>
+		<slideBar @getFilter = "getFilter"></slideBar>
 	</div>
 </template>
 <script>
@@ -36,11 +36,12 @@
 	import goodslist from '../goodslist.vue';
 	import loading from '../loading.vue';
 	import url from '../../assets/common/common.js';
+	import city from '../../assets/common/city.js';
 	import api from '../../api/api.js';
 	import Bscroll from 'better-scroll';
 
 	//侧栏显示；
-	import slideBar from '../test.vue';
+	import slideBar from './phoneFilter.vue';
 
 	import './phoneList.scss';
 	export default {
@@ -99,10 +100,21 @@
 			},
 			filter () {
 				this.$store.dispatch('showSideBar');
+			},
+			getFilter (option) {
+				console.log(option)
 			}
 		},
 		created(){
 			this.getProducts();
+			/*
+				searchLetterList: searchLetterList,
+				cityList: cityList,
+				cityObjs: cityObjs,
+				localCodeInfo: localCodeInfo
+			*/
+			console.log(city.searchLetterList(),city.cityList(), city.localCodeInfo('广州'));
+
 		}
 	}
 </script>

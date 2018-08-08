@@ -67,6 +67,14 @@ export default new Router({
       component: resolve => require(['../components/phoneList/phoneFilter'], resolve)
     },
     {
+      path: '/city',//租机分类 
+      name: 'city',
+      meta: {
+        title: '信用租机'
+      },
+      component: resolve => require(['../components/city'], resolve)
+    },
+    {
       path: '/test',
       name: 'test',
       meta: {

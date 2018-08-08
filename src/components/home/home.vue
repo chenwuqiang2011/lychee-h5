@@ -1,7 +1,7 @@
 <template>
 	<div class="home">
 		<div class="header">
-			<div class="header_l">
+			<div class="header_l" @click = "$router.push('/city')">
 				<span v-text = "city"></span>
 				<i class = "triangle_down"></i>
 			</div>
@@ -26,7 +26,7 @@
 				</div>
 				<!-- 分类图标 -->
 				<div class="category" @click = "abc">
-					<div class="xyzj">
+					<div class="xyzj" @click = "$router.push('/phoneList')">
 						<i class = "icon icon_zj"></i>
 						<p>信用租机</p>
 					</div>

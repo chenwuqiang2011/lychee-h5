@@ -32,14 +32,15 @@
 			}
 		},
 		mounted () {
-			this.$nextTick(() => {  //better-scroll的实例初始化要放在vm.$nextTick()里面才生效
-				// DOM已经更新完成
-				this.init();
-			});
+			console.log(this.$store.getters.isShowMethod, this.$store)
+			// this.$nextTick(() => {  //better-scroll的实例初始化要放在vm.$nextTick()里面才生效
+			// 	// DOM已经更新完成
+			// 	this.init();
+			// });
 		},
 		computed:{
 			isRellyShow(){
-				return this.$store.test.getters.isShowMethod;
+				return this.$store.getters.isShowMethod;
 			}
 		},
 		methods: {

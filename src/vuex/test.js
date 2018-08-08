@@ -6,7 +6,7 @@ const state = {
 
 const getters = {
     isShowMethod(state){
-    return state.isShow;
+        return state.isShow;
     }
 }
 
