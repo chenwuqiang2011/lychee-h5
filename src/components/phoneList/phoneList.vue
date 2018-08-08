@@ -15,7 +15,7 @@
 					<span>价格</span>
 					<i class = "up_and_down"></i>
 				</div>
-				<div class="phone_sort_item">
+				<div class="phone_sort_item" @click = "filter">
 					<span>筛选</span>
 					<i class = "filter"></i>
 				</div>
@@ -28,6 +28,7 @@
 			</div>
 		</div>
 		<loading v-if = "show"></loading>
+		<slideBar></slideBar>
 	</div>
 </template>
 <script>
@@ -37,6 +38,9 @@
 	import url from '../../assets/common/common.js';
 	import api from '../../api/api.js';
 	import Bscroll from 'better-scroll';
+
+	//侧栏显示；
+	import slideBar from '../test.vue';
 
 	import './phoneList.scss';
 	export default {
@@ -52,7 +56,8 @@
 		components: {
 			search,
 			goodslist,
-			loading
+			loading,
+			slideBar
 		},
 		methods: {
 			getProducts () {
@@ -91,6 +96,9 @@
 						this.scroll.refresh();
 					}
 				});
+			},
+			filter () {
+				this.$store.dispatch('showSideBar');
 			}
 		},
 		created(){

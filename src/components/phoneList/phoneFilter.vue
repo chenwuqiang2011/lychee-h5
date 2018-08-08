@@ -100,9 +100,7 @@
 			}
 		},
 		mounted () {
-			$('.phone_brandList').on('click', function(e){
-				console.log(e.target)
-			})
+			console.log($)
 		},
 		methods: {
 			handleChange (val) {
