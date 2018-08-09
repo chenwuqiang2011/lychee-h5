@@ -17,10 +17,14 @@
 	        display: none;
 	    }
 		.info_score{
-			height: 7rem;
-			padding-left: 1.0rem;
+			// height: 7rem;
+			// padding-left: 1.0rem;
 			background: #0cc7b4;
 			position: relative;
+			#Canvas01 {
+				margin: 0 auto;
+				display: block;
+			}
 			.showMyCredit {
 				@extend %flexRow;
 				width: 100%;

@@ -5,7 +5,7 @@
 		</div>
 		<div class="info_content">
 			<div class="info_score">
-				<score :score = '600' :time = "'2018-8-9'"></score>
+				<score :score = '678' :time = "'2018-8-9'"></score>
 				<div class="showMyCredit">
 					<p>晒晒我的信用分</p>
 					<p>了解我的信用分</p>

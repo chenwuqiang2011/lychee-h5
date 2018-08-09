@@ -11,35 +11,35 @@
 	    var creditTxt='', mathVal='';
 	    var colTxt="#fff", colLig='#fff', colBg='#fff';
 	    //根据分类来确定每一个需要的颜色、文字和位置
-	    //其实位置阶梯过度值(mathVal)：120--168--216--264--312--360间隔48,将分比例计算出来需要当前分类的位置（各个阶段值总分差不一样需要注意）
+	    //其实位置阶梯过度值(mathVal)：140--168--216--264--312--360间隔48,将分比例计算出来需要当前分类的位置（各个阶段值总分差不一样需要注意）
 	    if(getScore>=350 && getScore < 550){
-	        colTxt = "#fff";
-	        colLig = "#ffa5a5";
-	        colBg = "#fff";
+	        // colTxt = "#fff";
+	        // colLig = "#fff";
+	        // colBg = "#fff";
 	        creditTxt = "较差";
-	        mathVal = 120 + (getScore-350)/200*48;
+	        mathVal = 140 + (getScore-350)/200*48;
 	    }else if(getScore>=550 && getScore < 600){
-	        colTxt = "#fff";
-	        colLig = "#ffc2a0";
-	        colBg = "#fff";
+	        // colTxt = "#fff";
+	        // colLig = "#fff";
+	        // colBg = "#fff";
 	        creditTxt = "中等";
 	        mathVal = 168 + (getScore-550)/50*48;
 	    }else if(getScore>=600 && getScore < 650){
-	        colTxt = "#fff";
-	        colLig = "#5af698";
-	        colBg = "#fff";
+	        // colTxt = "#fff";
+	        // colLig = "#fff";
+	        // colBg = "#fff";
 	        creditTxt = "良好";
 	        mathVal = 216 + (getScore-600)/50*48;
 	    }else if(getScore>=650 && getScore < 700){
-	        colTxt = "#fff";
-	        colLig = "#9bf4f3";
-	        colBg = "#fff";
+	        // colTxt = "#fff";
+	        // colLig = "#fff";
+	        // colBg = "#fff";
 	        creditTxt = "优秀";
 	        mathVal = 264 + (getScore-650)/50*48;
 	    }else if(getScore>=700 && getScore < 950){
-	        colTxt = "#fff";
-	        colLig = "#81bfff";
-	        colBg = "#fff";
+	        // colTxt = "#fff";
+	        // colLig = "#fff";
+	        // colBg = "#fff";
 	        creditTxt = "极好";
 	        mathVal = 312 + (getScore-700)/250*48;
 	    }else{
@@ -49,21 +49,21 @@
 	    ctx.beginPath();
 	    // ctx.lineCap="round";
 	    ctx.lineWidth = 1;
-	    ctx.arc(150,120,50,0.84*Math.PI,0.16*Math.PI);
+	    ctx.arc(150,140,70,0.84*Math.PI,0.16*Math.PI);
 	    ctx.strokeStyle=colBg;
 	    ctx.stroke();
 	     //画外环
 	    ctx.beginPath();
 	    // ctx.lineCap="round";
 	    ctx.lineWidth = 1;
-	    ctx.arc(150, 120,70,0.84*Math.PI,0.16*Math.PI);
+	    ctx.arc(150, 140,90,0.84*Math.PI,0.16*Math.PI);
 	    ctx.strokeStyle=colBg;
 	    ctx.stroke();
 	    //画内环
 	    ctx.beginPath();
 	    // ctx.lineCap="round";
 	    ctx.lineWidth = 15;
-	    ctx.arc(150, 120,100,0.835*Math.PI,0.165*Math.PI);
+	    ctx.arc(150, 140,120,0.835*Math.PI,0.165*Math.PI);
 	    ctx.stroke();
 	    //文字-刻度-line
 	    // ctx.strokeStyle = '#fff';
@@ -81,18 +81,18 @@
 	    // ctx.textBaseline = 'hanging'
 	    ctx.font = "400 14px Arial";
 	    ctx.fillStyle = colTxt;
-	    ctx.fillText('信用'+creditTxt,150,160);
+	    ctx.fillText('信用'+creditTxt,150,190);
 	    //文字-信用数
-	    ctx.font = "600 35px microsoft yahei";
-	    ctx.fillText(getScore,150,130);
+	    ctx.font = "600 35px Arial";
+	    ctx.fillText(getScore,150,150);
 	    //文字-查询时间
-	    ctx.font = "200 14px microsoft yahei";
+	    ctx.font = "200 14px Arial";
 	    ctx.fillStyle = colLig;
-	    ctx.fillText('评估时间:'+getTime,150,190);
+	    ctx.fillText('评估时间:'+getTime,150,220);
 
 	    //文字-刻度
-	    ctx.font = "200 12px microsoft yahei";
-	    ctx.translate(150,120);
+	    ctx.font = "200 12px Arial";
+	    ctx.translate(150,140);
 	    ctx.textBaseline="top";
 	    var gradText = ['350','较差','550','中等','600','良好','650','优秀','700','极好','950'];
 	    for(var i = 0; i < gradText.length; i++){
@@ -109,7 +109,7 @@
 	            ctx.fillStyle = colLig;
 	        }
 	        //进行填值 半径185
-	        ctx.fillText(gradText[i],0,-90);
+	        ctx.fillText(gradText[i],0,-110);
 	    }
 	    //标识当前位置
 	    ctx.beginPath();
@@ -117,7 +117,7 @@
 	    ctx.shadowBlur=7;
 	    ctx.shadowColor = colTxt;
 	    ctx.rotate(mathVal*Math.PI/180);
-	    ctx.arc(0,-70,5,0,2*Math.PI);
+	    ctx.arc(0,-90,5,0,2*Math.PI);
 	    ctx.fill();
 	};
 
