@@ -5,7 +5,11 @@
 		</div>
 		<div class="info_content">
 			<div class="info_score">
-				
+				<score :score = '600' :time = "'2018-8-9'"></score>
+				<div class="showMyCredit">
+					<p>晒晒我的信用分</p>
+					<p>了解我的信用分</p>
+				</div>
 			</div>
 			<!-- 我的收藏 -->
 			<div class="info_collected">
@@ -47,6 +51,13 @@
 					</li>
 				</ul>
 			</div>
+			<!-- 信用生活 -->
+			<div class="info_life">
+				<h2>信用生活</h2>
+				<div class="info_life_msg">
+					
+				</div>
+			</div>
 		</div>
 		<!-- <div class="footer">底部</div> -->
 		<tabbar :name = '"info"'></tabbar>
@@ -56,12 +67,14 @@
 	import './info.scss';
 	import back from '../back.vue';
 	import tabbar from '../tabbar.vue';
+	import score from './score.vue';
 
 	export default {
 		name: 'info',
 		components: {
 			back,
-			tabbar
+			tabbar,
+			score
 		},
 		data () {
 			return {

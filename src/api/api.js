@@ -15,7 +15,7 @@ var openId = 'oVa7_0JOeScNLuMZSHrn4bkvx1U4';
 var url = IS_DEBUG ? global.global.testurl : global.global.baseurl;
 function getToken () {
 	var lycheeToken = JSON.parse(localStorage.getItem('lycheeToken'));
-	return lycheeToken.token;
+	if(lycheeToken) return lycheeToken.token;
 
 }
 
@@ -23,7 +23,7 @@ export default {
 	//获取token;
 	getToken (params) {
 		var token = getToken();
-		return axios.post(url + '/auth/' , JSON.stringify(params), {
+		return axios.post(url + '/auth/', JSON.stringify(params), {
 			headers: {
             	'Content-Type': 'application/json;charset=UTF-8'
         	}

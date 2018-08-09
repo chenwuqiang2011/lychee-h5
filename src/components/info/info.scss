@@ -17,8 +17,30 @@
 	        display: none;
 	    }
 		.info_score{
-			height: 5.47rem;
+			height: 7rem;
+			padding-left: 1.0rem;
 			background: #0cc7b4;
+			position: relative;
+			.showMyCredit {
+				@extend %flexRow;
+				width: 100%;
+				padding: 0 0.53rem;
+				box-sizing: border-box;
+				justify-content: space-around;
+				position: absolute;
+				left: 0;
+				bottom: 0.47rem;
+				p {
+					width: 3.07rem;
+					height: 0.87rem;
+					line-height: 0.87rem;
+					font-size: 0.29rem;
+					text-align: center;
+					color: #fff;
+					border: 0.01rem solid #fff;
+					border-radius: 0.13rem;
+				}
+			}
 		}
 		// 我的收藏
 		.info_collected {
@@ -27,26 +49,29 @@
 			background: #fff;
 			.info_collected_item {
 				flex: 1;
-				padding: 0 0.53rem;
+				// padding: 0 0.53rem;
+				// padding-left: 0.53rem;
 				@extend %flexRow;
+				justify-content: center;
 				align-items: center;
 				i {
 					display: block;
 					width: 1.07rem;
 					height: 1.07rem;
-					margin: 0 0.13rem;
+					// margin: 0 0.13rem;
 					&.icon_collected {
 						background: url('../../assets/imgs/myCollected.png') no-repeat;
-						background-size: cover;
+						background-size: contain;
 					}
 					&.icon_history {
 						background: url('../../assets/imgs/history.png') no-repeat;
-						background-size: cover;
+						background-size: contain;
 					}
 				}
 				div {
 					@extend %flexColumn;
 					justify-content: center;
+					padding-left: 0.13rem;
 					h3 {
 						font-size: 0.29rem;
 					}
@@ -69,9 +94,50 @@
 		// 信用管理
 		.info_credit {
 			margin-top: 0.27rem;
-			padding: 0.53rem 0.27rem;
+			padding: 0.53rem 0.27rem 0;
+			background: #fff;
 			h2 {
 				@extend %h2;
+			}
+			.info_credit_item {
+				@extend %flexRow;
+				justify-content: center;
+				padding: 0.53rem 0.27rem;
+				li {
+					flex: 1;
+					align-items: center;
+					color: #282828;
+					font-size: 0.29rem;
+					text-align: center;
+					i {
+						display: block;
+						width: 1.33rem;
+						height: 1.33rem;
+						margin: 0 auto;
+						background: url('../../assets/imgs/icon_zj.png') no-repeat;
+						background-size: cover;
+					}
+					p {
+						margin-top: 0.29rem;
+					}
+					span {
+						color: #07c1ae;
+					}
+				}
+			}
+		}
+		// 信用生活
+		.info_life {
+			margin-top: 0.27rem;
+			padding: 0.53rem 0.27rem 0;
+			background: #fff;
+			h2 {
+				@extend %h2;
+			}
+			.info_life_msg {
+				height: 3.73rem;
+				margin-top: 0.27rem;
+				background: #ddd;
 			}
 		}
 	}

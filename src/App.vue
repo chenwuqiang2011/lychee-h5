@@ -43,14 +43,14 @@
 
         api.getToken(option).then(res => {
           if (res.data.errcode == 1) {
-            var token = localStorage.getItem('lycheeToken');
-            if(token) {
-              token = JSON.parse(localStorage.getItem('lycheeToken'));
-            } else {
-              token = res.data.auth;
-              localStorage.setItem('lycheeToken', JSON.stringify(res.data.auth));
-              //设置超时时间；
-            }
+            // var token = localStorage.getItem('lycheeToken');
+            // if(token) {
+            //   token = JSON.parse(localStorage.getItem('lycheeToken'));
+            // } else {
+            //   token = res.data.auth;
+            //   localStorage.setItem('lycheeToken', JSON.stringify(res.data.auth));
+            //   //设置超时时间；
+            // }
               // var tokenInfo = res.data.auth;
               // try {
               //     console.log(localStorage.getItem("lycheeToken"))
