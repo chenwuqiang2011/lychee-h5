@@ -7,12 +7,12 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/HelloWorld',
       name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/home',//主页
+      path: '/',//主页
       name: 'home',
       component: resolve => require(['@/components/home/home'], resolve)
     },

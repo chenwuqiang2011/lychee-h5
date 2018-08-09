@@ -1,7 +1,8 @@
 // let city = localStorage.getItem('city');
 // var cityed = city || '广州';
 const state = {
-    city: '广州'
+    city: {"cityCode": "440100", "city": "广州", "provinceCode": "440000"},
+    openId:'oVa7_0JOeScNLuMZSHrn4bkvx1U4'
 }
 
 

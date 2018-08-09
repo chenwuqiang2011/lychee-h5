@@ -2,7 +2,7 @@
 	<div class="home">
 		<div class="header">
 			<div class="header_l" @click = "$router.push('/city')">
-				<span v-text = "city"></span>
+				<span v-text = "city.city" class = "selectedCity"></span>
 				<i class = "triangle_down"></i>
 			</div>
 			<div class="header_r">
@@ -78,7 +78,6 @@
 			return {
 				id: 123,
 				goodslist: [],
-				city: '广州',
 				swiperOption: {
 					pagination: {
 					    el: '.swiper-pagination',
@@ -101,24 +100,31 @@
 				imgurl: url.global.imgurl
 			}
 		},
+		computed: {
+			city: {
+				get () {
+					return this.$store.state.currentCity.city;
+				},
+				set (val) {
+
+				}
+			}
+		},
 		created () {
 
 		},
 		mounted () {
 			var id = this.$route.query.id;
 			this.id = id;
-			// console.log(id);
-			// console.log(this.$route, this.$router);
-			// var a = api.abc(0);
-			// a.then(function(res) {
-			// 	console.log(res)
-			// }).catch(res => {
-			// 	console.log(res);
-			// });
-			// api.a();
-			api.queryProducts({pageNo: 5, qty: 15}).then(res => {
+			var option = {
+				openId: this.$store.state.currentCity.openId,
+				provinceCode: this.$store.state.currentCity.city.provinceCode,
+				cityCode: this.$store.state.currentCity.city.cityCode,
+				category: '1'
+			}
+			api.hotProducts(option).then(res => {
 				console.log(res);
-				this.goodslist = res.data.data;
+				
 			});
 			//better-scroll;
 			// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })

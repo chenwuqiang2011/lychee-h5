@@ -15,9 +15,55 @@
   // document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
   // //1rem=100px  就是所有的css属性的属性值都是用rem来表示
   // console.log(deviceWidth/7.5);
-
+  import api from './api/api.js';
   export default {
-    name: 'App'
+    name: 'App',
+    created () {
+      this.getToken();
+      // console.log(com.getToken())
+      //在页面加载时读取localStorage里的状态信息；正式环境时更改此设置；
+      // localStorage.getItem("lycheeMsg") && this.$store.replaceState(JSON.parse(localStorage.getItem("lycheeMsg")));
+
+      //开发阶段会出现新增state变量，不能更新到loacalStorage;可以使用下面的方法；
+      localStorage.getItem("userMsg") && this.$store.replaceState(Object.assign(this.$store.state,JSON.parse(localStorage.getItem("userMsg")))); 
+      //在页面刷新时将vuex里的信息保存到localStorage里
+      window.addEventListener("beforeunload",()=>{
+        localStorage.setItem("lycheeMsg",JSON.stringify(this.$store.state))
+      })
+    },
+    methods: {
+      getToken () {
+        var option = {
+          authAppId: 'PK9toXlIdbLoJLq7',
+          authAppSecret: '6jsniGLm22HTYuS0cTvcP1fzQcysH1pQ',
+          openId:'oVa7_0JOeScNLuMZSHrn4bkvx1U4',//获取用户openId
+          contentType: 'application/json'
+        };
+
+
+        api.getToken(option).then(res => {
+          if (res.data.errcode == 1) {
+            var token = localStorage.getItem('lycheeToken');
+            if(token) {
+              token = JSON.parse(localStorage.getItem('lycheeToken'));
+            } else {
+              token = res.data.auth;
+              localStorage.setItem('lycheeToken', JSON.stringify(res.data.auth));
+              //设置超时时间；
+            }
+              // var tokenInfo = res.data.auth;
+              // try {
+              //     console.log(localStorage.getItem("lycheeToken"))
+              //     localStorage.getItem("lycheeToken")
+              // } catch (e) {
+              //     console.log('token写入缓存异常：', e)
+              // }
+          } else {
+              console.log('错误提示：', res.data.errmsg)
+          }
+        })
+      }
+    }
   }
 </script>
 

@@ -3,27 +3,29 @@
 		<div class="city_head">
 			<back :title = "'选择城市'"></back>
 			<div class="city_search">
-				<input v-model="input" placeholder="城市名或者拼音查询"></input>
+				<input v-model="input" placeholder="城市名或者拼音查询" @input = "auto"></input>
 			</div>
 		</div>
-		<div class="city_content" ref = "cityWrapper">
+		<!-- 城市列表 -->
+		<div class="city_content" ref = "cityWrapper" v-show = "!isShow">
 			<div>
 				<div class="city_selected">
 					<h5 class = "currentCity">当前选择城市</h5>
-					<span>广州</span>
+					<span @click = "setCity" :data-provincecode = "currentCity.provinceCode" :data-citycode = "currentCity.cityCode" v-text = "currentCity.city"></span>
 				</div>
 				<div class="city_hot">
 					<h5 class = "hotCity">热门城市</h5>
 					<div class="city_hot_item">
-						<span>北京</span>
-						<span>上海</span>
-						<span>广州</span>
-						<span>深圳</span>
-						<span>杭州</span>
-						<span>南京</span>
-						<span>武汉</span>
-						<span>天津</span>
-						<span>西安</span>
+						<span 
+							@click = "setCity" 
+							v-for = "(item, index) in hotCity " 
+							:key = "index" 
+							:data-index = "index"
+							:data-provincecode = "item.provinceCode" 
+							:data-citycode = "item.cityCode"
+							v-text = "item.city">
+						</span>
+						
 					</div>
 				</div>
 				<div class="cityList" v-for = "(item, index) in cityList" :key = "index" data-index = "index" ref = "cityList">
@@ -32,15 +34,17 @@
 						v-for = "(items, idx) in item.cityInfo " 
 						:key = "idx" 
 						:data-idx = "idx"
-						:data-provincecode = "items.provincecode" 
-						:data-citycode = "items.citycode" 
+						:data-provincecode = "items.provinceCode" 
+						:data-citycode = "items.cityCode"
+						@click = "setCity" 
 						v-text = "items.city">
 					</p>
 				</div>
 				
 			</div>
 		</div>
-		<div class="cityLetterList">
+		<!-- 字母排序 -->
+		<div class="cityLetterList" v-show = "!isShow">
 			<p data-index = '00' @click = "toElement">当前</p>
 			<p data-index = '01' @click = "toElement">热门</p>
 			<p 
@@ -51,6 +55,21 @@
 				@click = "toElement">
 			</p>
 		</div>
+		<!-- 搜索结果显示 -->
+		<div class="showResult" v-show = "isShow">
+			<ul class="resultList">
+				<li 
+					v-for = "(item, index) in completeList" 
+					:key = "index"
+					:data-index = "index"
+					:data-provincecode = "item.provinceCode" 
+					:data-citycode = "item.cityCode" 
+					@click = "setCity"
+					v-text = "item.city">
+				</li>
+			</ul>
+		</div>
+		<!-- 点击字母提示 -->
 		<popup :text = "letter" v-show = "show" ref = "popup"></popup>
 	</div>
 </template>
@@ -66,12 +85,16 @@
 	export default {
 		data () {
 			return {
-				// cityList: [],
-				// cityLetterList: [],
+				/*currentCity : {
+					"cityCode": "440100", "city": "广州", "provinceCode": "440000" 
+				},*/
+				hotCity: [{ "cityCode": "110000", "city": "北京", "provinceCode": "110000" }, { "cityCode": "310000", "city": "上海", "provinceCode": "310000" }, { "cityCode": "440100", "city": "广州", "provinceCode": "440000" }, { "cityCode": "440300", "city": "深圳", "provinceCode": "440000" }, { "cityCode": "330100", "city": "杭州", "provinceCode": "330000" }, { "cityCode": "320100", "city": "南京", "provinceCode": "320000" }, { "cityCode": "420100", "city": "武汉", "provinceCode": "420000" }, { "cityCode": "120000", "city": "天津", "provinceCode": "120000" }, { "cityCode": "610100", "city": "西安", "provinceCode": "610000" }],
 				cityCode: '',
 				input: '',
 				letter: '',
-				show: false
+				show: false,
+				isShow: false, //是否显示搜索结果；
+				completeList: []
 			}
 		},
 		components: {
@@ -94,9 +117,35 @@
 				set (val) {
 
 				}
+			},
+			currentCity: {
+				get () {
+					return this.$store.state.currentCity.city;
+				},
+				set (val) {
+
+				}
 			}
 		},
 		methods: {
+			setCity (e) {
+				console.log(this.currentCity)
+				var e = event  || window.event;
+				var provinceCode = e.target.getAttribute('data-provinceCode');
+				var cityCode = e.target.getAttribute('data-cityCode');
+				var city = e.target.innerHTML;
+				this.currentCity.provinceCode = provinceCode;
+				this.currentCity.cityCode = cityCode;
+				this.currentCity.city = city;
+
+				var option = {
+					provinceCode,
+					cityCode,
+					city
+				};
+				this.$store.state.currentCity.city = option;
+				this.$router.go(-1);
+			},
 			toElement (event) {
 				var e = event  || window.event;
 				if(e.target.getAttribute('data-index') == '00'){
@@ -110,10 +159,91 @@
 				this.letter = e.target.innerHTML;
 
 				$ ('.popup').show ().delay (500).fadeOut ().text('');
+			},
+			auto () {
+				this.isShow = true;
+			    let inputSd = this.input;
+			    let sd = inputSd.toLowerCase();
+			    let num = sd.length;
+			    if (num == 0) {
+			    	//重置列表数据；
+			    	this.isShow = false;
+			    	this.completeList = [];
+			    	return false;
+			    }
+			    const cityList = cityObj.cityObjs;
+			    let finalCityList = []
+
+			    let temp = cityList.filter(
+			        item => {
+			            let text = item.short.slice(0, num)
+			            return (text && text == sd)
+			        }
+			    );
+
+			    let tempShorter = cityList.filter(
+			        itemShorter => {
+			            let textShorter = itemShorter.shorter.slice(0, num)
+			            return (textShorter && textShorter == sd)
+			        }
+			    )
+
+			    let tempChinese = cityList.filter(
+			        itemShorter => {
+			            let textShorter = itemShorter.city.slice(0, num)
+			            return (textShorter && textShorter == sd)
+			        }
+			    )
+
+
+			    if (temp[0]) {
+			        temp.map(
+			            item => {
+			                let testObj = {};
+			                testObj.city = item.city
+			                testObj.cityCode = item.code
+			                testObj.provinceCode = item.provincecode
+			                finalCityList.push(testObj)
+			            }
+			        )
+			        this.completeList = finalCityList;
+
+			    } else if (tempShorter[0]) {
+			        tempShorter.map(
+			            item => {
+			                let testObj = {};
+			                testObj.city = item.city
+			                testObj.cityCode = item.code
+			                testObj.provinceCode = item.provincecode
+			                finalCityList.push(testObj)
+			            }
+			        );
+			        this.completeList = finalCityList;
+			      
+
+			    } else if (tempChinese[0]) {
+
+			        tempChinese.map(
+			            item => {
+			                let testObj = {};
+			                testObj.city = item.city
+			                testObj.cityCode = item.code
+			                testObj.provinceCode = item.provincecode
+			                finalCityList.push(testObj)
+			            })
+			        this.completeList = finalCityList;
+			    } else {
+			    	this.$message({
+						message: '没有找到您要找的城市哦！',
+						center: true
+					});
+			        return
+			    }
+			    console.log(this.completeList)
 			}
 		},
 		created () {
-			
+			console.log(localStorage.getItem("lycheeMsg"));
 		},
 		mounted () {
 			if(!this.scroll) {
@@ -121,7 +251,7 @@
 			} else {
 				this.scroll.refresh();
 			}
-
+			console.log(this.cityList)
 		}
 	}
 </script>
@@ -166,10 +296,11 @@
 				font-size: 0.35rem;
 				color: #666;
 				span {
-					display: block;
-					width: 2.4rem;
+					display: inline-block;
+					min-width: 2.2rem;
 					height: 0.87rem;
 					line-height: 0.87rem;
+					padding: 0 0.13rem;
 					text-align: center;
 					color: #00c8b4;
 					border-radius: 0.13rem;
@@ -216,6 +347,7 @@
 				}
 			}
 		}
+		// 字母排序
 		.cityLetterList {
 			position: fixed;
 			right: 0;
@@ -234,6 +366,18 @@
 				text-align: center;
 			}
 		}
-
+		// 搜索结果显示
+		.showResult {
+			flex: 1;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			li {
+				padding: 0 0.27rem;
+				height: 1.07rem;
+				line-height: 1.07rem;
+				font-size: 0.37rem;
+				border-bottom: 0.01rem solid #ededed;
+			}
+		}
 	}
 </style>

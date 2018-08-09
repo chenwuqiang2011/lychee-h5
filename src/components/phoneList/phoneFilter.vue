@@ -223,8 +223,8 @@
 	}
 	.slide-fade-enter, .slide-fade-leave-to{
 		opacity: 0;
-		-webkit-transform:translate(-9.0rem,0px);
-		transform:translate(-9.0rem,0px);
+		-webkit-transform:translate(10.0rem, 0);
+		transform:translate(10.0rem, 0);
 		-webkit-transition:opacity 0.3s ease-in-out 0.3s,-webkit-transform 0.3s ease-in-out;
 		transition: opacity 0.3s ease-in-out 0.3s,transform 0.3s ease-in-out;
 	}

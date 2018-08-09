@@ -5,7 +5,7 @@
 	height: 100%;
 	@extend %flexColumn;
 	.phone_head {
-		.phone_search {
+/* 		.phone_search {
 			height: 1.2rem;
 			background: $headBgColor;
 			@extend %flexRow;
@@ -22,7 +22,7 @@
 				flex: 1;
 				padding: 0 0.27rem;
 			}
-		}
+		} */
 		.phone_sort {
 			height: 1.47rem;
 			padding: 0.27rem;
@@ -54,6 +54,11 @@
 					background: url('../../assets/imgs/filter.png') no-repeat;
 					background-size: cover;
 
+				}
+				.search {
+					@extend .up_and_down;
+					background: url('../../assets/imgs/search.png') no-repeat;
+					background-size: cover;
 				}
 
 			}

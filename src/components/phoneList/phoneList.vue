@@ -2,10 +2,11 @@
 	<div class="phoneList">
 		<div class="phone_head">
 			<div class="phone_search">
-				<i class = "back_icon" @click = "$router.go(-1)"></i>
+				<!-- <i class = "back_icon" @click = "$router.go(-1)"></i>
 				<div class = "phone_search_r">
 					<search :placeholder = "'搜索商品'"></search>
-				</div>
+				</div> -->
+				<back :title = "'信用租机'"></back>
 			</div>
 			<div class="phone_sort">
 				<div class="phone_sort_item">
@@ -18,6 +19,10 @@
 				<div class="phone_sort_item" @click = "filter">
 					<span>筛选</span>
 					<i class = "filter"></i>
+				</div>
+				<div class="phone_sort_item" @click = "filter">
+					<span>搜索</span>
+					<i class = "search"></i>
 				</div>
 			</div>
 		</div>
@@ -32,6 +37,7 @@
 	</div>
 </template>
 <script>
+	import back from '../back.vue';
 	import search from '../search.vue';
 	import goodslist from '../goodslist.vue';
 	import loading from '../loading.vue';
@@ -55,6 +61,7 @@
 			}
 		},
 		components: {
+			back,
 			search,
 			goodslist,
 			loading,
@@ -113,8 +120,6 @@
 				cityObjs: cityObjs,
 				localCodeInfo: localCodeInfo
 			*/
-			console.log(city.searchLetterList(),city.cityList(), city.localCodeInfo('广州'));
-
 		}
 	}
 </script>

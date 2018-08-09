@@ -23,12 +23,19 @@
 			& > i {
 				width: 0.4rem;
 				height: 0.4rem;
-				margin-left: 0.13rem;
+				margin-right: 0.13rem;
 				background: url('../../assets/imgs/triangle-down.png') no-repeat;
 				background-size: cover;
 			}
 			& > span {
 				font-size: 0.37rem;
+				flex: 1;
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+
+
 			}
 		}
 		.header_r {
