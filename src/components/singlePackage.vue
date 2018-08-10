@@ -1,19 +1,15 @@
+<!-- 套餐选择 -->
 <template>
 	<div class="package">
-		<div class="package_99" :class = "{'red_border': !show, 'active': index == 1}" @click = "choosed(1)" >
-			<h2>天翼单产品套餐<span>99元</span></h2>
-			<p>1.5G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
-			<span v-if = "show"><i>HOT</i></span>
-		</div>
-		<div class="package_199" :class = "{'red_border': !show, 'active': index == 2}"  @click = "choosed(2)">
-			<h2>天翼单产品套餐<span>199元</span></h2>
-			<p>100M光纤宽带，4G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶2000分钟，转换短信封顶500条</p>
-			<span v-if = "show"><i>HOT</i></span>
-		</div>
-		<div class="package_169" :class = "{'red_border': !show, 'active': index == 3}" @click = "choosed(3)">
-			<h2>天翼单产品套餐<span>169元</span></h2>
-			<p>50M光纤宽带，3G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条</p>
-			<span v-if = "show"><i>HOT</i></span>
+		<div class="package_99" 
+			:class = "index == idx ? 'active' : ''" 
+			@click = "choosed(idx)" 
+			v-for = "(item, idx) in telecomProdList" 
+			:data-prodId = "item.prodId"
+			>
+			<h2 v-text = "item.prodName"></h2>
+			<p style="marginTop: 0.13rem;marginBottom: 0.13rem;">月费用：<span>{{item.monthFee}}</span></p>
+			<p v-text = "item.prodDesc"></p>
 		</div>
 	</div>
 </template>
@@ -23,17 +19,26 @@
 			show: {
 				type: Boolean,
 				default: true
+			},
+			telecomProdList: {
+				type: Array,
+				default: []
 			}
 		},
 		data () {
 			return {
-				index: 0
+				index: null
 			}
 		},
 		methods: {
 			choosed (idx) {
 				this.index = idx;
-				this.$emit('choose', '单产品套餐' + idx); 
+				this.telecomProdList.map((item, index) => {
+					if(index == idx) {
+						console.log(idx)
+						this.$emit('choose', JSON.stringify(item)); 
+					}
+				})
 			}
 		}
 	}
@@ -44,16 +49,13 @@
 		padding-bottom: 0.27rem;
 		& > div {
 			height: 2.67rem;
-			border: 2px solid #f64d6c;
+			border: 1px solid #ccc;
 			border-radius: 0.27rem;
-			padding: 0.08rem 0.27rem 0 0.27rem;
+			padding: 0.27rem;
 			font-size: 0.37rem;
 			margin-bottom: 0.37rem;
 			position: relative;
 			overflow: hidden;
-			&.red_border {
-				border: 1px solid #ccc;
-			}
 			&.active {
 				border: 1px solid #f64d6c;
 			}
@@ -63,35 +65,14 @@
 			& > h2 {
 				line-height: 0.75rem;
 				font-size: 0.37rem;
-				& > span {
-					color: #fe4460;
-					margin: 0 0.13rem;
-					font-weight: bolder;
-				}
 			}
 			& > p {
 				line-height: 0.56rem;
-			}
-			& > span {
-				display: block;
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 2.0rem;
-				height: 1.33rem;
-				text-align: center;
-				color: #fff;
-				background: #fe4460;
-				transform: rotate(45deg);
-				transform-origin: right bottom;
-				& > i {
-					position: absolute;
-					left: 0;
-					bottom: 0.13rem;
-					display: block;
-					width: 100%;
-					font-size: 0.37rem;
-					text-align: center;
+				& > span {
+					color: #f64d6c;
+					&:after {
+						content: '元';
+					}
 				}
 			}
 		}

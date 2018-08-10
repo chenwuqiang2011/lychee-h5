@@ -9,10 +9,10 @@
 				<back :title = "'信用租机'"></back>
 			</div>
 			<div class="phone_sort">
-				<div class="phone_sort_item">
+				<div class="phone_sort_item" @click = "commend">
 					<span>推荐</span>
 				</div>
-				<div class="phone_sort_item">
+				<div class="phone_sort_item" @click = "upAndDown" ref = "upAndDown">
 					<span>价格</span>
 					<i class = "up_and_down"></i>
 				</div>
@@ -45,6 +45,7 @@
 	import city from '../../assets/common/city.js';
 	import api from '../../api/api.js';
 	import Bscroll from 'better-scroll';
+	import $ from 'jquery';
 
 	//侧栏显示；
 	import slideBar from './phoneFilter.vue';
@@ -53,11 +54,13 @@
 	export default {
 		data(){
 			return {
-				pageNo: 1,
-				qty: 10,
+				category: '',
+				pageNum: 1,
+				pageSize: 10,
 				goods: [],
 				loading: 50,
-				show: false
+				show: false,
+				sortType: ''
 			}
 		},
 		components: {
@@ -68,12 +71,46 @@
 			slideBar
 		},
 		methods: {
+			//推荐
+			commend (e) {
+				$(this.$refs.upAndDown).find('i').removeClass('up down');
+				this.sortType = '';
+				this.getProducts();
+			},
+			// 价格排序
+			upAndDown (e) {
+				console.log(this.$refs.upAndDown)
+				$(this.$refs.upAndDown).find('i').toggleClass('down');
+				if($(this.$refs.upAndDown).find('i').hasClass('down')){
+					this.sortType = 'desc';
+					$(this.$refs.upAndDown).find('i').removeClass('up');
+				} else {
+					this.sortType = 'asc';
+					$(this.$refs.upAndDown).find('i').addClass('up');
+				}
+				console.log(this.sortType);
+				this.getProducts();
+			},
 			getProducts () {
 				this.show = true;
-				api.queryProducts({pageNo: this.pageNo, qty: this.qty}).then(res => {
+				var options = {
+					pageNum: this.pageNum,
+					pageSize: this.pageSize,
+					category: this.category,
+					sortType: this.sortType, 
+					openId: this.$store.state.currentCity.openId,
+					provinceCode: this.$store.state.currentCity.city.provinceCode,
+					cityCode: this.$store.state.currentCity.city.cityCode,
+
+				};
+				console.log(options)
+				api.queryGoodsList(options).then(res => {
 					console.log(res);
+					if(res.data.errcode == 1) {
+						this.goodslist = res.data.goodsList;
+					}
 					//没有更多数据时，提示
-					this.goods = this.goods.concat(res.data.data);
+					// this.goods = this.goods.concat(res.data.data);
 					this.show = false;
 					if(!this.scroll){
 						this.$nextTick(()=>{
@@ -89,7 +126,7 @@
 							});*/
 							this.scroll.on('pullingUp', (posy) => {
 								console.log('加载更多！')
-								this.pageNo++;
+								this.pageNum++;
 								this.getProducts();
 								//当你加载数据完成后还要调用finishPullUp告诉 better-scroll 数据已加载。
 								//this.scroll.finishPullUp();                                    
@@ -113,6 +150,8 @@
 			}
 		},
 		created(){
+			console.log(this.$route.query.category);
+			this.category = this.$route.query.category;
 			this.getProducts();
 			/*
 				searchLetterList: searchLetterList,

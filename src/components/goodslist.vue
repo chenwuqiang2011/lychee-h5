@@ -1,12 +1,18 @@
 <template>
 	<ul class="goodslist">
-		<li v-for = "(item, idx) in goodslist" :key = "idx" @click = "$router.push({ name: 'goodsDetail', query: { id: item.ID}})">
+		<li 
+			v-for = "(item, idx) in goodslist" 
+			:key = "idx" 
+			:data-id = "item.id"
+			@click = "$router.push({ name: 'goodsDetail', query: { id: item.id}})"
+			>
 			<div class="goods_img">
-				<img :src="imgurl + item.imgurl">
+				<img :src="imgurl + item.imgPath">
 			</div>
 			<div class="goods_desc">
-				<p class="goods_name" v-text = "item.description"></p>
-				<p class = "goods_price" v-text = "item.nowPrice"></p>
+				<p class="goods_name" v-text = "item.phoneName ||item.goodsname"></p>
+				<p class="goods_name" v-text = "item.phoneDesc"></p>
+				<p class = "goods_price" v-text = "item.price"></p>
 				<div class="goods_btn" v-if = "show" >去租机</div>
 			</div>
 		</li>
@@ -62,13 +68,13 @@
 				& > .goods_name {
 					font-size: 0.39rem;
 					line-height: 0.6rem;
-					height: 1.2rem;
+					// height: 1.2rem;
 					// 超出隐藏
-					overflow: hidden;
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					-webkit-box-orient: vertical;
+					// overflow: hidden;
+					// text-overflow: ellipsis;
+					// display: -webkit-box;
+					// -webkit-line-clamp: 2;
+					// -webkit-box-orient: vertical;
 				}
 				& > .goods_price {
 					font-size: 0.36rem;

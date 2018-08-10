@@ -1,24 +1,16 @@
+<!-- 利率 -->
 <template>
 	<div class="package">
-		<div class="package_99" :class = "index == 1 ? 'active' : ''" @click = "choosed(1)">
-			<h2>每月套餐费<span>169元</span>您仅需支付<span>240元</span></h2>
-			<p>(50M光纤宽带，3G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶1000分钟，转换短信封顶500条)</p>
-			<!-- <span><i>HOT</i></span> -->
-		</div>
-		<div class="package_199" :class = "index == 2 ? 'active' : ''" @click = "choosed(2)">
-			<h2>每月套餐费<span>199元</span>您仅需支付<span>90元</span></h2>
-			<p>(100M光纤宽带，4G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶2000分钟，转换短信封顶500条)</p>
-			<!-- <span><i>HOT</i></span> -->
-		</div>
-		<div class="package_169" :class = "index == 3 ? 'active' : ''" @click = "choosed(3)">
-			<h2>每月套餐费<span>299元</span>您仅需支付<span>0元</span></h2>
-			<p>(100M光纤宽带，6G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶5000分钟，转换短信封顶1000条)</p>
-			<!-- <span><i>HOT</i></span> -->
-		</div>
-		<div class="package_169" :class = "index == 4 ? 'active' : ''" @click = "choosed(4)">
-			<h2>每月套餐费<span>399元</span>您仅需支付<span>0元</span></h2>
-			<p>(100M光纤宽带，9G国内流量，可转换为语音和短信使用，1MB流量等于1分钟语音等于1条短信，转换语音封顶5000分钟，转换短信封顶1000条)</p>
-			<!-- <span><i>HOT</i></span> -->
+		<div class="package_99" 
+			:class = "index == idx ? 'active' : ''" 
+			@click = "choosed(idx)" 
+			v-for = "(item, idx) in capitalProdList" 
+			:data-capitalType = "item.capitalType"
+			>
+			<h2>分期金额：<span></span></h2>
+			<p v-text = "item.prodDesc"></p>
+			<p v-text = "item.prodTerms"></p>
+			
 		</div>
 	</div>
 </template>
@@ -26,13 +18,26 @@
 	export default {
 		data () {
 			return {
-				index: 0
+				index: null
+			}
+		},
+		props: {
+			capitalProdList: {
+				type: Array,
+				default: []
+			},
+			total: {
+				default: ''
 			}
 		},
 		methods: {
 			choosed (idx) {
 				this.index = idx;
-				this.$emit('choose', '融合套餐' + idx); 
+				this.capitalProdList.map((item, index) => {
+					if(index == idx) {
+						this.$emit('choose', JSON.stringify(item)); 
+					}
+				})
 			}
 		}
 	}
@@ -42,7 +47,7 @@
 		// margin-top: 0.53rem;
 		padding-bottom: 0.27rem;
 		& > div {
-			height: 2.67rem;
+			min-height: 2.67rem;
 			border: 1px solid #ccc;
 			border-radius: 0.27rem;
 			padding: 0.08rem 0.27rem 0 0.27rem;

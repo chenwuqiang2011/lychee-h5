@@ -79,6 +79,7 @@
 	import Bscroll from 'better-scroll';
 	import cityObj from '../assets/common/city.js';
 	import $ from 'jquery';
+	import api from '../api/api.js';
 	/*
 		city.searchLetterList(),city.cityList(), city.localCodeInfo('广州')
 	*/
@@ -139,11 +140,25 @@
 				this.currentCity.city = city;
 
 				var option = {
-					provinceCode,
-					cityCode,
 					city
 				};
-				this.$store.state.currentCity.city = option;
+				//获取省和城市编码；
+				var code = cityCode;
+				api.setCrmCode(code).then(res=>{
+					console.log(1111,res);
+					var areaDict = res.data.areaDict;
+					for (var key in areaDict) {
+						if(key == code) {
+							console.log(444444444)
+							option["provinceCode"] = areaDict[key].crmProvCode;
+                			option["cityCode"] = areaDict[key].crmCityCode;
+                			this.$store.state.currentCity.city = option;
+                			console.log(option)
+						}
+					}
+				})
+
+				
 				this.$router.go(-1);
 			},
 			toElement (event) {

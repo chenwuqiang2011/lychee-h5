@@ -27,5 +27,6 @@
 		opacity: 0.5;
 		color: #fff;
 		font-size: 0.53rem;
+		border-radius: 0.27rem;
 	}
 </style>

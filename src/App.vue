@@ -36,28 +36,27 @@
         var option = {
           authAppId: 'PK9toXlIdbLoJLq7',
           authAppSecret: '6jsniGLm22HTYuS0cTvcP1fzQcysH1pQ',
-          openId:'oVa7_0JOeScNLuMZSHrn4bkvx1U4',//获取用户openId
-          contentType: 'application/json'
+          openId:'oVa7_0JOeScNLuMZSHrn4bkvx1U4'//获取用户openId
+          // contentType: 'application/json'
         };
 
-
+        //判断是否过期再请求
         api.getToken(option).then(res => {
           if (res.data.errcode == 1) {
-            // var token = localStorage.getItem('lycheeToken');
-            // if(token) {
-            //   token = JSON.parse(localStorage.getItem('lycheeToken'));
-            // } else {
-            //   token = res.data.auth;
-            //   localStorage.setItem('lycheeToken', JSON.stringify(res.data.auth));
-            //   //设置超时时间；
-            // }
-              // var tokenInfo = res.data.auth;
-              // try {
-              //     console.log(localStorage.getItem("lycheeToken"))
-              //     localStorage.getItem("lycheeToken")
-              // } catch (e) {
-              //     console.log('token写入缓存异常：', e)
-              // }
+            var token = localStorage.getItem('lycheeToken');
+            if(token) {
+              token = JSON.parse(localStorage.getItem('lycheeToken'));
+            } else {
+              token = res.data.auth;
+              localStorage.setItem('lycheeToken', JSON.stringify(res.data.auth));
+              //设置超时时间；
+              
+            }
+              var tokenInfo = res.data.auth;
+              try {
+                  localStorage.getItem("lycheeToken")
+              } catch (e) {
+              }
           } else {
               console.log('错误提示：', res.data.errmsg)
           }

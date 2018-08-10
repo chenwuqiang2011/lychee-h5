@@ -48,6 +48,14 @@
 					margin-left: 0.27rem;
 					background: url('../../assets/imgs/up_and_down.png') no-repeat;
 					background-size: cover;
+					&.up {
+						background-position: -0.4rem 0;
+
+					}
+					&.down {
+						background-position: -0.8rem 0;
+
+					}
 				}
 				.filter {
 					@extend .up_and_down;

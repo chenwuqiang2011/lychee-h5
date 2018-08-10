@@ -26,7 +26,7 @@
 				</div>
 				<!-- 分类图标 -->
 				<div class="category" @click = "abc">
-					<div class="xyzj" @click = "$router.push('/phoneList')">
+					<div class="xyzj" @click = "$router.push({name: 'phoneList', query: {category: '1'}})">
 						<i class = "icon icon_zj"></i>
 						<p>信用租机</p>
 					</div>
@@ -119,12 +119,13 @@
 			var option = {
 				openId: this.$store.state.currentCity.openId,
 				provinceCode: this.$store.state.currentCity.city.provinceCode,
-				cityCode: this.$store.state.currentCity.city.cityCode,
-				category: '1'
+				cityCode: this.$store.state.currentCity.city.cityCode
 			}
 			api.hotProducts(option).then(res => {
 				console.log(res);
-				
+				if(res.data.errcode == 1) {
+					this.goodslist = res.data.hotPhoneList;
+				}
 			});
 			//better-scroll;
 			// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
