@@ -25,7 +25,7 @@
       // localStorage.getItem("lycheeMsg") && this.$store.replaceState(JSON.parse(localStorage.getItem("lycheeMsg")));
 
       //开发阶段会出现新增state变量，不能更新到loacalStorage;可以使用下面的方法；
-      localStorage.getItem("userMsg") && this.$store.replaceState(Object.assign(this.$store.state,JSON.parse(localStorage.getItem("userMsg")))); 
+      localStorage.getItem("lycheeMsg") && this.$store.replaceState(Object.assign(this.$store.state,JSON.parse(localStorage.getItem("lycheeMsg")))); 
       //在页面刷新时将vuex里的信息保存到localStorage里
       window.addEventListener("beforeunload",()=>{
         localStorage.setItem("lycheeMsg",JSON.stringify(this.$store.state))

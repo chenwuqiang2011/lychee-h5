@@ -1,16 +1,19 @@
 <!-- 利率 -->
 <template>
 	<div class="package">
-		<div class="package_99" 
-			:class = "index == idx ? 'active' : ''" 
+		<div class="package_item" 
+			
 			@click = "choosed(idx)" 
 			v-for = "(item, idx) in capitalProdList" 
 			:data-capitalType = "item.capitalType"
+			:key = "idx"
 			>
-			<h2>分期金额：<span></span></h2>
-			<p v-text = "item.prodDesc"></p>
-			<p v-text = "item.prodTerms"></p>
-			
+			<!-- <h2>分期金额：<span v-text = "item.downPayment"></span></h2> -->
+			<div class="capitalDetail_l" :class = "index == idx ? 'active' : ''" ></div>
+			<div class="capitalDetail_r">
+				<p><span v-text = "item.monthPay + ' x ' + item.periods"></span> 期</p>
+				<p v-text = "item.prodDesc"></p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -44,56 +47,29 @@
 </script>
 <style lang="scss" scoped="">
 	.package {
-		// margin-top: 0.53rem;
-		padding-bottom: 0.27rem;
-		& > div {
-			min-height: 2.67rem;
-			border: 1px solid #ccc;
-			border-radius: 0.27rem;
-			padding: 0.08rem 0.27rem 0 0.27rem;
-			font-size: 0.37rem;
-			margin-bottom: 0.37rem;
-			position: relative;
-			overflow: hidden;
-			&.active {
-				border: 1px solid #f64d6c;
-			}
-			&:last-child {
-				margin-bottom: 0;
-			}
-			& > h2 {
-				line-height: 0.75rem;
-				font-size: 0.37rem;
-				& > span {
-					color: #fe4460;
-					margin: 0 0.13rem;
-					font-weight: bolder;
+		.package_item {
+			border-bottom: 0.01rem solid #ccc;
+			height: 1.07rem;
+			padding: 0.27rem 0;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			font-size: 0.36rem;
+			.capitalDetail_l {
+				width: 0.4rem;
+				height: 0.4rem;
+				margin-right: 0.4rem;
+				border: 0.02rem solid #ccc;
+				box-sizing: border-box;
+				border-radius: 50%;
+				&.active {
+					background: url('../assets/imgs/select.png') no-repeat;
+					background-size: cover;
+					border: none;
 				}
 			}
-			& > p {
-				line-height: 0.56rem;
-			}
-			& > span {
-				display: block;
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 2.0rem;
-				height: 1.33rem;
-				text-align: center;
-				color: #fff;
-				background: #fe4460;
-				transform: rotate(45deg);
-				transform-origin: right bottom;
-				& > i {
-					position: absolute;
-					left: 0;
-					bottom: 0.13rem;
-					display: block;
-					width: 100%;
-					font-size: 0.37rem;
-					text-align: center;
-				}
+			.capitalDetail_r {
+				flex: 1;
 			}
 		}
 	}

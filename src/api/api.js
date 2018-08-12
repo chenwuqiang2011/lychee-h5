@@ -40,10 +40,32 @@ export default {
         	}
     	});
 	},
+	//获取首页轮播图和导航列表；
+	getBannerAndNav (params) {
+		var token = getToken();
+		return axios.post(`${url}/index/getBannerAndNav`, JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+
+		});
+	},
 	//查询热销推荐商品列表；
 	hotProducts (params) {
 		var token = getToken();
 		return axios.post(`${url}/index/getSaleRecommand`, qs.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/x-www-form-urlencoded',
+            	'Authorization': 'Bearer ' + token
+        	}
+
+		});
+	},
+	//关键词查询商品;
+	queryGoodsByKeyWord (params) {
+		var token = getToken();
+		return axios.post(`${url}/goods/queryGoodsByKeyWord`, qs.stringify(params), {
 			headers: {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
@@ -63,9 +85,20 @@ export default {
 		});
 	},
 	//搜索条件显示；
-	conditionList (params) {
+	queryConditionList (params) {
 		var token = getToken();
-		return axios.post(`${url}/goods/queryGoodsList`, qs.stringify(params), {
+		return axios.post(`${url}/goods/queryConditionList`, qs.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/x-www-form-urlencoded',
+            	'Authorization': 'Bearer ' + token
+        	}
+
+		});
+	},
+	//搜索列表+热门搜索；
+	getHotWord (params) {
+		var token = getToken();
+		return axios.post(`${url}/goods/getHotWord`, qs.stringify(params), {
 			headers: {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token

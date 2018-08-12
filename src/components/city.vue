@@ -149,17 +149,17 @@
 					var areaDict = res.data.areaDict;
 					for (var key in areaDict) {
 						if(key == code) {
-							console.log(444444444)
 							option["provinceCode"] = areaDict[key].crmProvCode;
                 			option["cityCode"] = areaDict[key].crmCityCode;
                 			this.$store.state.currentCity.city = option;
-                			console.log(option)
+                			console.log(this.$store.state.currentCity.city);
+                			this.$router.go(-1);
 						}
 					}
 				})
 
 				
-				this.$router.go(-1);
+				
 			},
 			toElement (event) {
 				var e = event  || window.event;
@@ -258,7 +258,7 @@
 			}
 		},
 		created () {
-			console.log(localStorage.getItem("lycheeMsg"));
+			console.log('localStorage',localStorage.getItem("lycheeMsg"));
 		},
 		mounted () {
 			if(!this.scroll) {
@@ -266,7 +266,6 @@
 			} else {
 				this.scroll.refresh();
 			}
-			console.log(this.cityList)
 		}
 	}
 </script>

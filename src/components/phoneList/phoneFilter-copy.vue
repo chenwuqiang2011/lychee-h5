@@ -21,7 +21,7 @@
 						</div>
 					</div>
 					<!-- 品牌 -->
-				<!-- 	<div class="phone_brand">
+					<div class="phone_brand">
 						<el-collapse  @change="handleChange">
 							<el-collapse-item title="品牌" name="1" style = "color: #888; fontSize: 0.37rem">
 								<div class = "phone_brandList">
@@ -45,12 +45,53 @@
 								</div>
 							</el-collapse-item>
 						</el-collapse>
-					</div> -->
+					</div>
 					<!-- 机身内存 -->
-					<div class="phone_capacity" v-for = "(item, index) in cateList" :key = "index" :data-id = "item.cateId">
-						<h3 v-text = "item.cateName"></h3>
-						<div class="phone_capacity_list">
-							<span v-for = "(item2, index2) in item.subCateList" :key = "index2" v-text = "item2.subCateName" :data-id = "item2.subCateId" @click = "getCondition"></span>
+					<div class="phone_capacity">
+						<h3>机身内存ROM</h3>
+						<div class="phone_capacity_list rom_list">
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">512M</div></el-col>
+								<el-col :span="8"><div class="grid-content">16G</div></el-col>
+								<el-col :span="8"><div class="grid-content">32G</div></el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">64G</div></el-col>
+								<el-col :span="8"><div class="grid-content">128G</div></el-col>
+								<el-col :span="8"><div class="grid-content">256G</div></el-col>
+							</el-row>
+						</div>
+					</div>
+					<!-- 运行内存 -->
+					<div class="phone_capacity">
+						<h3>运行内存RAM</h3>
+						<div class="phone_capacity_list ram_list">
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">1G</div></el-col>
+								<el-col :span="8"><div class="grid-content">2G</div></el-col>
+								<el-col :span="8"><div class="grid-content">3G</div></el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">4G</div></el-col>
+								<el-col :span="8"><div class="grid-content">6G</div></el-col>
+								<el-col :span="8"><div class="grid-content">8G</div></el-col>
+							</el-row>
+						</div>
+					</div>
+					<!-- 手机类型 -->
+					<div class="phone_capacity">
+						<h3>手机类型</h3>
+						<div class="phone_capacity_list type_list">
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">儿童手机</div></el-col>
+								<el-col :span="8"><div class="grid-content">三防手机</div></el-col>
+								<el-col :span="8"><div class="grid-content">电视手机</div></el-col>
+							</el-row>
+							<el-row :gutter="20">
+								<el-col :span="8"><div class="grid-content">3G手机</div></el-col>
+								<el-col :span="8"><div class="grid-content">老人手机</div></el-col>
+								<el-col :span="8"><div class="grid-content">女性手机</div></el-col>
+							</el-row>
 						</div>
 					</div>
 				</div>
@@ -72,8 +113,12 @@
 			return {
 				min: null,
 				max: null,
-				category: '', //分类标识;
-				cateList: []  //条件列表；
+				brand: '',
+				ROM: '',
+				RAM: '',
+				type: '',
+
+				category: ''
 			}
 		},
 		created () {
@@ -87,13 +132,48 @@
 			};
 			api.queryConditionList(options).then(res => {
 				console.log(res)
-				if(res.data.errcode == 1){
-					this.cateList = res.data.cateList;
-				}
 			})
 		},
 		mounted () {
 
+			var that = this;
+			$('.phone_brandList').on('click', function(e){
+				//获取品牌
+				if(e.target.nodeName.toLowerCase() == 'img') {
+					// console.log($(e.target).attr('alt'));
+					$(e.target).addClass('active').siblings().removeClass('active');
+					that.brand = $(e.target).attr('alt');
+				};
+			});
+			//获取机身内存;
+			$('.rom_list').on('click', function(e){
+				//获取品牌
+				if(e.target.className == 'grid-content') {
+					$(e.target).addClass('active').parent().siblings().children().removeClass('active');
+					$(e.target).addClass('active').parents('.el-row').siblings().find('.grid-content').removeClass('active');
+					that.ROM = $(e.target).text();
+				};
+			});
+			//获取运行内存;
+			$('.ram_list').on('click', function(e){
+				//获取品牌
+				if(e.target.className == 'grid-content') {
+					// console.log(1,$(e.target).text());
+					$(e.target).addClass('active').parent().siblings().children().removeClass('active');
+					$(e.target).addClass('active').parents('.el-row').siblings().find('.grid-content').removeClass('active');
+					that.RAM = $(e.target).text();
+				};
+			});
+			//获取手机类型;
+			$('.type_list').on('click', function(e){
+				//获取品牌
+				if(e.target.className == 'grid-content') {
+					// console.log(1,$(e.target).text());
+					$(e.target).addClass('active').parent().siblings().children().removeClass('active');
+					$(e.target).addClass('active').parents('.el-row').siblings().find('.grid-content').removeClass('active');
+					that.type = $(e.target).text();
+				};
+			});
 		},
 		computed:{
 			isRellyShow(){
@@ -101,10 +181,6 @@
 			}
 		},
 		methods: {
-			getCondition (e) {
-				$(e.target).toggleClass('active');
-				console.log($(e.target).data('id'))
-			},
 			hideSide:function(){
 			  	this.$store.dispatch('hideSideBar');
 			},
@@ -112,7 +188,15 @@
 				console.log(123)
 			},
 			reset () {
-				
+				this.min = null;
+				this.max = null;
+				this.brand = null;
+				this.ROM = null;
+				this.RAM = null;
+				this.type = null;
+				var that = this;
+				$('.phone_brandList').find('img').removeClass('active');
+				$('.grid-content').removeClass('active');
 				
 			},
 			submit () {
@@ -163,13 +247,13 @@
 	}
 	.phoneFilter {
 		@extend %flexColumn;
-		width: 9rem;
+		width: 9.0rem;
 		height: 100%;
 		z-index: 11;
 		position:fixed;
 		// width: 90%;
 		top: 0;
-		right: 0;
+		left: 0;
 		bottom: 0;
 		-webkit-overflow-scrolling:touch;
 		background: #fff;
@@ -199,7 +283,6 @@
 					@extend %flexRow;
 					align-items: center;
 					padding-left: 0.53rem;
-					border-bottom: 1px solid #e5e5e5;
 					& > input {
 						width: 2.2rem;
 						height: 0.67rem;
@@ -213,38 +296,49 @@
 					}
 				}
 			}
+			.phone_brand {
+				// padding: 0 0.27rem;
+				.el-collapse-item {
+					padding: 0 0.27rem;
+					.el-collapse-item__header {
+						color: #888!important;
+					}
+					.phone_brandList {
+						overflow: hidden;
+						img {
+							display: block;
+							float: left;
+							width: 2.0rem;
+							height: 0.85rem;
+							margin: 0.25rem;
+							padding: 0.13rem;
+							border: 0.01rem solid #e5e5e5;
+							&.active {
+								@extend .active;
+							} 
+						}
+					}
+				}
+			}
 			.phone_capacity {
 				border-bottom: 0.01rem solid #e5e5e5;	
 				h3 {
 					@extend h3 ;
 				}
 				.phone_capacity_list {
-					padding: 0.27rem;
-					padding-left: 0.53rem;
-					@extend %flexRow;
-					flex-wrap: wrap;
-
-					span {
-						display: block;
+					// overflow: hidden;
+					padding: 0.27rem 0.67rem;
+					.grid-content  {
+						height: 0.8rem;
 						background: #eaeeef;
-						width: 30%;
 						height: 0.8rem;
 						line-height: 0.8rem;
-						margin-right: 0.27rem;
+						text-align: center;
 						margin-bottom: 0.27rem;
 						border-radius: 0.13rem;
-						text-align: center;
 						font-size: 0.29rem;
 						box-sizing: border-box;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-						&.active {
-							border: 0.01rem solid #dd2727;
-							color: #dd2727;
-						}
 					}
-					
 				}
 			}
 		}

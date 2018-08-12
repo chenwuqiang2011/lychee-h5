@@ -77,5 +77,19 @@
 		padding: 0.27rem;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
+		.no_more {
+			font-size: 0.37rem;
+			color: #ddd;
+			height: 1.07rem;
+			line-height: 1.07rem;
+			margin: 0 0.27rem;
+			text-align: center;
+			&:before {
+				content: '——————',
+			}
+			&:after {
+				content: '——————',
+			}
+		}
 	}
 }

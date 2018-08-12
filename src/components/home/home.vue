@@ -14,23 +14,28 @@
 				<!-- 轮播图 -->
 				<div class="lamp">
 					<swiper :options="swiperOption" ref="mySwiper" >
-					    <!-- slides -->
-					    <swiper-slide><img src="../../assets/imgs/iPhone-8.jpg" alt = ""></swiper-slide>
-					    <swiper-slide><img src="../../assets/imgs/iPhone-x.jpg" alt = ""></swiper-slide>
-					    <!-- Optional controls -->
+					    <swiper-slide 
+					    	v-for = "(item, index) in bannerList"
+					    	:key = "index"
+
+					    	>
+					    	<img v-lazy="imgurl + item.imgPath " alt = "">
+					    </swiper-slide>
 					    <div class="swiper-pagination"  slot="pagination"></div>
-					    <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
-					    <!-- <div class="swiper-button-next" slot="button-next"></div> -->
-					    <!-- <div class="swiper-scrollbar"   slot="scrollbar"></div> -->
 					</swiper>
 				</div>
 				<!-- 分类图标 -->
 				<div class="category" @click = "abc">
-					<div class="xyzj" @click = "$router.push({name: 'phoneList', query: {category: '1'}})">
-						<i class = "icon icon_zj"></i>
-						<p>信用租机</p>
+					<div class="xyzj" 
+						@click = "$router.push({name: 'phoneList', query: {category: index + 1}})"
+						v-for = "(item, index) in navList"
+						:key = "index"
+						:data-id = "item.id"
+						>
+						<img class = "icon icon_zj" v-lazy = "imgurl + item.imgPath">
+						<p>{{item.navTitle}}</p>
 					</div>
-					<div class="xyzj">
+					<!-- <div class="xyzj">
 						<i class = "icon icon_fare"></i>
 						<p>电话费</p>
 					</div>
@@ -41,7 +46,7 @@
 					<div class="xyzj">
 						<i class = "icon icon_router"></i>
 						<p>路由器</p>
-					</div>
+					</div> -->
 				</div>
 				<!-- 商品列表 -->
 				<div class="goods">
@@ -54,11 +59,13 @@
 		</div>
 		<!-- <div class="footer">底部</div> -->
 		<tabbar :name = '"home"'></tabbar>
+		<loading v-if = "show"></loading>
 	</div>
 </template>
 <script>
 	import './home.scss';
 	import tabbar from '../tabbar.vue';
+	import loading from '../loading.vue';
 	import search from '../search.vue';
 	import goodslist from '../goodslist.vue';
 	import packageHot from '../package_hot.vue';
@@ -70,13 +77,16 @@
 		name: 'home',
 		components: {
 			tabbar,
+			loading,
 			search,
 			goodslist,
 			packageHot
 		},
 		data () {
 			return {
-				id: 123,
+				show: false,
+				bannerList: [], //轮播图列表
+				navList: [], //导航列表
 				goodslist: [],
 				swiperOption: {
 					pagination: {
@@ -110,26 +120,33 @@
 				}
 			}
 		},
-		created () {
 
-		},
-		mounted () {
-			var id = this.$route.query.id;
-			this.id = id;
-			var option = {
+		created () {
+			var options = {
 				openId: this.$store.state.currentCity.openId,
 				provinceCode: this.$store.state.currentCity.city.provinceCode,
 				cityCode: this.$store.state.currentCity.city.cityCode
 			}
-			api.hotProducts(option).then(res => {
+			console.log(options);
+			//获取推荐商品列表 
+			// this.show = true;
+			api.hotProducts(options).then(res => {
+
 				console.log(res);
 				if(res.data.errcode == 1) {
 					this.goodslist = res.data.hotPhoneList;
+					this.show = false;
 				}
 			});
-			//better-scroll;
-			// this.$nextTick(() => { this.scroll = new Bscroll(this.$refs.wrapper, { click : true}) })
-			
+
+			//获取轮播图及导航图；
+			api.getBannerAndNav(options).then(res => {
+				console.log(res);
+				if(res.data.errcode == 1) {
+					this.bannerList = res.data.bannerList;
+					this.navList = res.data.navList;
+				}
+			})			
 		},
 		methods: {
 			abc () {

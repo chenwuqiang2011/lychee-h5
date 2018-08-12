@@ -20,7 +20,7 @@
 					<span>筛选</span>
 					<i class = "filter"></i>
 				</div>
-				<div class="phone_sort_item" @click = "filter">
+				<div class="phone_sort_item" @click = "$router.push('/search')">
 					<span>搜索</span>
 					<i class = "search"></i>
 				</div>
@@ -29,7 +29,7 @@
 		<div class="phone_body" ref = "wrapper">
 			<div class="phone_goods">
 				
-				<goodslist :goodslist = "goods" :show = "false"></goodslist>
+				<goodslist :goodslist = "goods" :show = "false" :hot = "false"></goodslist>
 			</div>
 		</div>
 		<loading v-if = "show"></loading>
@@ -55,12 +55,12 @@
 		data(){
 			return {
 				category: '',
-				pageNum: 1,
+				totalPage: 0,
+				pageNum: 1, 
 				pageSize: 10,
-				goods: [],
-				loading: 50,
+				goods: [], 
 				show: false,
-				sortType: ''
+				sortList: [{ "paramName": "price", "sortType": "asc" }]
 			}
 		},
 		components: {
@@ -70,11 +70,23 @@
 			loading,
 			slideBar
 		},
+		created(){
+			this.$store.dispatch('hideSideBar');
+			console.log(this.$route.query.category);
+			this.category = this.$route.query.category;
+			this.getProducts();
+			/*
+				searchLetterList: searchLetterList,
+				cityList: cityList,
+				cityObjs: cityObjs,
+				localCodeInfo: localCodeInfo
+			*/
+		},
 		methods: {
 			//推荐
 			commend (e) {
 				$(this.$refs.upAndDown).find('i').removeClass('up down');
-				this.sortType = '';
+				// this.sortList.push();
 				this.getProducts();
 			},
 			// 价格排序
@@ -82,13 +94,18 @@
 				console.log(this.$refs.upAndDown)
 				$(this.$refs.upAndDown).find('i').toggleClass('down');
 				if($(this.$refs.upAndDown).find('i').hasClass('down')){
-					this.sortType = 'desc';
 					$(this.$refs.upAndDown).find('i').removeClass('up');
+					this.sortType = 'desc';
+					var options = {
+						paramName: 'price',
+						sortType: 'desc'
+					};
+					this.sortList.splice(0, this.sortList.length, options);
 				} else {
 					this.sortType = 'asc';
 					$(this.$refs.upAndDown).find('i').addClass('up');
 				}
-				console.log(this.sortType);
+				console.log(this.sortList);
 				this.getProducts();
 			},
 			getProducts () {
@@ -97,7 +114,7 @@
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
 					category: this.category,
-					sortType: this.sortType, 
+					sortList: [{ "paramName": "price", "sortType": "asc" }],
 					openId: this.$store.state.currentCity.openId,
 					provinceCode: this.$store.state.currentCity.city.provinceCode,
 					cityCode: this.$store.state.currentCity.city.cityCode,
@@ -105,12 +122,20 @@
 				};
 				console.log(options)
 				api.queryGoodsList(options).then(res => {
-					console.log(res);
+					
 					if(res.data.errcode == 1) {
-						this.goodslist = res.data.goodsList;
+						this.goods = this.goods.concat(res.data.goodsList);
+						
+						this.totalPage = res.data.totalPage;
+						//没有更多商品时，在列表最后追加动态元素
+						if(this.pageNum == res.data.totalPage) {
+							$('.phone_goods').append(`<p class = "no_more">暂无更多商品</p>`);
+							// return false;
+						}
+						console.log(res);
 					}
 					//没有更多数据时，提示
-					// this.goods = this.goods.concat(res.data.data);
+					// this.goods = this.goods.concat(res.data.goodsList);
 					this.show = false;
 					if(!this.scroll){
 						this.$nextTick(()=>{
@@ -125,15 +150,18 @@
 								// console.log(123,posy)
 							});*/
 							this.scroll.on('pullingUp', (posy) => {
-								console.log('加载更多！')
-								this.pageNum++;
-								this.getProducts();
+								if(this.pageNum < this.totalPage){
+									console.log('加载更多！');
+									this.pageNum++;
+									this.getProducts();
+								} else {
+									console.log('没有更多数据时，提示');
+
+								}
 								//当你加载数据完成后还要调用finishPullUp告诉 better-scroll 数据已加载。
-								//this.scroll.finishPullUp();                                    
-		        				//this.scroll.refresh();  
-								// if(this.scroll.y <= (this.scroll.maxScrollY + 50) && this.loading) {
-								// 	console.log('加载')
-								// }
+								this.scroll.finishPullUp();                                    
+		        				this.scroll.refresh();  
+								
 							})
 						})
 					} else {
@@ -143,22 +171,11 @@
 				});
 			},
 			filter () {
-				this.$store.dispatch('showSideBar');
+				this.$store.dispatch('showSideBar', this.category);
 			},
 			getFilter (option) {
 				console.log(option)
 			}
-		},
-		created(){
-			console.log(this.$route.query.category);
-			this.category = this.$route.query.category;
-			this.getProducts();
-			/*
-				searchLetterList: searchLetterList,
-				cityList: cityList,
-				cityObjs: cityObjs,
-				localCodeInfo: localCodeInfo
-			*/
 		}
 	}
 </script>

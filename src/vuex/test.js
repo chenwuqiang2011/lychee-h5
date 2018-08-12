@@ -12,11 +12,11 @@ const getters = {
 
 
 const actions = {
-    showSideBar({commit}){
-        commit('showBar')
+    showSideBar({commit}, n){
+        commit('showBar', n);
     },
-    hideSideBar({commit}){
-        commit('hideBar')
+    hideSideBar({commit}, n){
+        commit('hideBar', n);
     }
 }
 

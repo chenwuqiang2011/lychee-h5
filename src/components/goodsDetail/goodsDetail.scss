@@ -189,10 +189,16 @@
 				font-size: 0.37rem;
 				text-align: center;
 				border-bottom: 0.01rem solid #ccc;
+				span {
+					color: #f5475f;
+					margin-left: 0.13rem;
+					&:before {
+						content: '￥'
+					}
+				}
 			}
 			& > .packages_insert {
 				flex: 1;
-				padding-top: 0.27rem;
 				overflow-y: auto;
 				-webkit-overflow-scrolling: touch;
 			}	
@@ -214,21 +220,18 @@
 		& > div {
 			flex: 1;
 			&.fixed_bottom_l {
+				border-top: 0.01rem solid #ccc;
+				box-sizing: border-box;
 				padding-left: 0.27rem;
 				@extend %flexColumn;
-				justify-content: center;
-
+				justify-content: space-around;
 				& > p {
 					font-size: 0.37rem;
 					color: #f5475f;
-					&.total {
-						font-size: 0.43rem;
+					& > .total {
 						font-weight: bolder;
 						&:before {
 							content: '￥';
-						}
-						&:after {
-							content: '元';
 						}
 					}
 				}

@@ -70,9 +70,17 @@ export default new Router({
       path: '/city',//租机分类 
       name: 'city',
       meta: {
-        title: '信用租机'
+        title: '城市列表'
       },
       component: resolve => require(['../components/city'], resolve)
+    },
+    {
+      path: '/search',//搜索列表 
+      name: 'search',
+      meta: {
+        title: '搜索'
+      },
+      component: resolve => require(['../components/search/search'], resolve)
     },
     {
       path: '/test',

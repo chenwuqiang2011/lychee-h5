@@ -1,17 +1,38 @@
 <template>
 	<ul class="goodslist">
+
+		<!-- 热门推荐商品列表 -->
 		<li 
+			v-if = "hot"
 			v-for = "(item, idx) in goodslist" 
 			:key = "idx" 
 			:data-id = "item.id"
 			@click = "$router.push({ name: 'goodsDetail', query: { id: item.id}})"
 			>
 			<div class="goods_img">
-				<img :src="imgurl + item.imgPath">
+				<img v-lazy="imgurl + item.imgPath">
 			</div>
 			<div class="goods_desc">
-				<p class="goods_name" v-text = "item.phoneName ||item.goodsname"></p>
+				<p class="goods_name" v-text = "item.phoneName"></p>
 				<p class="goods_name" v-text = "item.phoneDesc"></p>
+				<p class = "goods_price" v-text = "item.price"></p>
+				<div class="goods_btn" v-if = "show" >去租机</div>
+			</div>
+		</li>
+		<!-- 普通查询商品列表 -->
+		<li 
+			v-if = "!hot"
+			v-for = "(item, idx) in goodslist" 
+			:key = "idx" 
+			:data-id = "item.id"
+			@click = "$router.push({ name: 'goodsDetail', query: { id: item.id}})"
+			>
+			<div class="goods_img">
+				<img :src="imgurl + item.goodsImgPath">
+			</div>
+			<div class="goods_desc">
+				<p class="goods_name" v-text = "item.phoneName"></p>
+				<p class="goods_name" v-text = "item.goodsDesc"></p>
 				<p class = "goods_price" v-text = "item.price"></p>
 				<div class="goods_btn" v-if = "show" >去租机</div>
 			</div>
@@ -28,6 +49,10 @@
 				default: []
 			},
 			show: {
+				type: Boolean,
+				default: true
+			},
+			hot: {
 				type: Boolean,
 				default: true
 			}
@@ -57,6 +82,8 @@
 			& > .goods_img {
 				height: 1.87rem;
 				width: 1.87rem;
+				display: flex;
+				align-items: center;
 				& > img {
 					max-width: 100%;
 				}

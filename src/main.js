@@ -22,6 +22,13 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 import '../node_modules/swiper/dist/css/swiper.min.css';
 Vue.use(VueAwesomeSwiper);
 
+//图片lazy-load插件；
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+    error:'./src/assets/imgs/error.png',
+    loading:'./src/assets/imgs/lazy.gif'
+})
+
 //移动端单位转换；
 // var deviceWidth = document.documentElement.clientWidth;   
 // document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
