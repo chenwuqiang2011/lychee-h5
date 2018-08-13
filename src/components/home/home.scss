@@ -34,8 +34,6 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
-
-
 			}
 		}
 		.header_r {
@@ -57,12 +55,15 @@
 			//轮播图；
 			.swiper-container {
 				// height: 4.0rem;
+				min-height: 5.6rem;
 				position: relative;
 				img {
 					height: 100%;
 					width: 100%;
 					// max-width: 100%;
 					display: block;
+					border: none;
+					outline: none;
 				}
 			}
 			// 分类
@@ -106,6 +107,7 @@
 				margin-top: 0.27rem;
 				padding: 0 0.27rem;
 				background: #fff;
+				min-height: 5rem;
 				& > h1 {
 					font-size: 0.4rem;
 					line-height: 0.4rem;

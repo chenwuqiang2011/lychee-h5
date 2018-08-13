@@ -7,7 +7,7 @@
 		<!-- 显示区域 -->
 		<div class="goodsDetail_content">	
 			<div class="content">
-				<div class="goodsDetail_lamp">
+				<div class="goodsDetail_lamp" v-if = "photoList.length > 0">
 					<swiper :options="swiperOption" ref="mySwiper" >
 					    <swiper-slide v-for = "(item, index) in photoList" :key = "index" :data-id = "item.photoId">
 					    	<img :src="imgurl + item.photoPath" alt = "">
@@ -45,26 +45,7 @@
 							></li>
 						</ul>
 					</div>
-<!-- 					<div class="size_item">
-						<p>颜色</p>
-						<ul>
-							<li :class = "index2 == 1? 'active' : '' " @click = "getColor" data-index2 = '1'>玫瑰金</li>
-							<li :class = "index2 == 2? 'active' : '' " @click = "getColor" data-index2 = '2'>白色</li>
-							<li :class = "index2 == 3? 'active' : '' " @click = "getColor" data-index2 = '3'>黑色</li>
-						</ul>
-					</div> -->
-					<!-- <div class="size_item">
-						<p>数量</p>
-						<el-input-number v-model="qty" @change="handleChange" :min="1" size="small"></el-input-number>
-						<div>
-							<span>-</span>
-							<el-input v-model="qty" placeholder="请输入内容"></el-input>
-							<input type="" name="">
-							<span>+</span>
-						</div>
-						<p class = "stock">库存<span>256</span></p>
-						
-					</div>	 -->
+
 				</div>
 				<!-- 商品套餐 -->
 				<div class="goods_package" @click = "showPackage">
@@ -80,12 +61,6 @@
 					<i></i>	
 				</div>
 			
-				<!-- 商品参数 -->
-				<!-- <div class="goods_package">
-					<span>产品参数</span>
-					<p></p>
-					<i></i>
-				</div> -->
 				<!-- 商品详情 -->
 				<div class="goods_package">
 					<span>图文详情</span>
@@ -115,7 +90,7 @@
 					</div>
 				</div>
 				
-				<p @click = "showPackage">完成</p>
+				<p @click = "completed">完成</p>
 			</div>
 		</transition>
 
@@ -167,6 +142,7 @@
 				downPayment: 0, //商品首付款；
 				initPayment: 0, //电信产品首付款
 				realDownPayment: 0,//实际首付款；
+				periodPrice: 0,//分期首付；
 				changePrice: false, //商品单价显示切换；
 				packagePrice: 0, //套餐价格；
 				telecomProdList: [],//套餐选择列表
@@ -238,20 +214,17 @@
 					this.skuDetailList = res.data.skuDetailList;//商品规格i属性d拼接数组；
 					this.skuGroupList = res.data.skuGroupList;//商品规格属性数组
 					this.activeCode = res.data.goodsBaseInfo.activeCode;//租机类型；
-					//政府租机特殊处理；
-					if(res.data.goodsBaseInfo.activeCode != 'gz_rent_phone') {
-						//个人租机首付；
-						this.downPayment = res.data.goodsBaseInfo.downPayment;//商品首付；
-						this.realDownPayment = res.data.goodsBaseInfo.downPayment;
-					};
-
+					
 					//是否配置电信产品，考虑电信产品产付款；默认为？？？
 					if(res.data.isTelConf == 1){
 						try{
 							this.packagePrice =  res.data.telecomProdList[0].price;
 							//政府租机特殊处理；
 							if(res.data.goodsBaseInfo.activeCode != 'gz_rent_phone') {
+								//个人租机首付；
+								this.downPayment = res.data.goodsBaseInfo.downPayment;//商品首付；
 								this.initPayment = res.data.telecomProdList[0].initPayment;
+								
 								// this.realDownPayment = this.realDownPayment + this.initPayment;
 								//计算一番得出默认最小分期数的金额；
 								this.capitalProdList.map((item, index) => {
@@ -261,24 +234,27 @@
 										//商品首付;
 										sum = sum.toFixed(2);
 										var downPayment = sum - this.downPayment - this.initPayment;
-										console.log(sum, downPayment, this.packagePrice)
 										//首付与额度比较 ，得出实际首付款；
 										var realDownPayment;
 										var gap = 0;
-										console.log(22222, downPayment, this.maxAvailAmount, (downPayment - this.maxAvailAmount) > 0)
 										if((downPayment-this.maxAvailAmount) > 0) {
-											//补差额；
-											gap = downPayment - this.maxAvailAmount;
-											//当客户额度 < 应付首付时，实际首付款 = 商品首付款 + 套餐首付款 - 差价；
-											realDownPayment = this.downPayment + this.initPayment + gap;
+											//额度为0时；
+											if(this.maxAvailAmount == 0) {
+												realDownPayment = this.total + this.packagePrice;
+												console.log(realDownPayment)
+											} else {
+
+												//补差额；
+												gap = downPayment - this.maxAvailAmount;
+												//当客户额度 < 应付首付时，实际首付款 = 商品首付款 + 套餐首付款 - 差价；
+												realDownPayment = this.downPayment + this.initPayment + gap;
+											}
 										} else {
 											realDownPayment = this.downPayment + this.initPayment;
 										};
 										this.realDownPayment = realDownPayment;
-										console.log(11111111111111, realDownPayment, gap)
 									}
 								});
-
 							}
 							this.mealSelected = res.data.telecomProdList[0];
 						} catch(err){
@@ -286,16 +262,7 @@
 						}
 						
 					};
-					// //是否配置金融产品，商品首付款；
-					// if(res.data.isCapitalConf == 1){
-					// 	try{
-					// 		// this.telecomProdList = res.data.telecomProdList[0].initPayment;
-					// 	} catch(err){
-					// 		console.log('没有配置金融产品！', err)
-					// 	}
-						
-					// };
-
+			
 					//默认套餐价格；
 					this.telecomProdList = res.data.telecomProdList; 
 					if(res.data.telecomProdList.length > 0) {
@@ -405,19 +372,6 @@
 				
 			},
 			next () {
-				/*
-					1、商品图片、商品ID、商品名称、总价;
-					2、选择的商品规格（容量、颜色、套餐）；
-				*/
-				var option = {
-					ID: this.id,
-					capacity: this.capacity,
-					color: this.color,
-					total: this.total,
-					package: this.capitalChoosed
-				};
-				console.log(option)
-				console.log(this.index, this.index2, typeof this.total, this.qty);
 				if(!this.capitalChoosed) {
 					this.$message({
 						message: '请选择套餐',
@@ -427,18 +381,12 @@
 				}
 				this.$router.push({name: 'rentDetail', query: option});
 			},
-			//显示套餐列表；
-			showPackage () {
+			//选择完成；
+			completed () {
 				if(this.showList) {
-					this.packagePrice = this.mealSelected.price;
-					//政府租机特殊处理；
-					if(this.activeCode != 'gz_rent_phone') {
-
-						this.initPayment = this.mealSelected.initPayment;
-					};
-					this.mealChoosed = this.mealSelected.prodName;
+					console.log('套餐')
 				} else {
-					console.log(this.capitalSelected)
+					console.log('分期')
 					if(!this.capitalSelected.prodName){
 						this.$message({
 							message: '请选择分期！',
@@ -446,16 +394,46 @@
 						})
 						return false;
 					}
-					// this.capitalChoosed = this.capitalSelected.prodName;
+					this.capitalChoosed = this.capitalSelected.prodName;
 					this.capitalChoosed = `￥${this.capitalSelected.monthPay} x ${this.capitalSelected.periods} 期,${this.capitalSelected.prodDesc}`
-
 
 					//插入在显示的值；
 					var html = `<p>分期：￥<span>${this.capitalSelected.monthPay}</span> x <span>${this.capitalSelected.periods}</span> 期</p>`;
 					$('.fixed_bottom_l').find('div').html(html);
 				}
-				this.show = !this.show;
+				this.show = false;
+			},
+			//显示套餐列表；
+			showPackage () {
+				this.show = true;
 				this.showList = true;
+				// if(this.showList) {
+				// 	this.packagePrice = this.mealSelected.price;
+				// 	//政府租机特殊处理；
+				// 	if(this.activeCode != 'gz_rent_phone') {
+
+				// 		this.initPayment = this.mealSelected.initPayment;
+				// 	};
+				// 	this.mealChoosed = this.mealSelected.prodName;
+				// } else {
+				// 	console.log(this.capitalSelected)
+					// if(!this.capitalSelected.prodName){
+					// 	this.$message({
+					// 		message: '请选择分期！',
+					// 		type: 'warning'
+					// 	})
+					// 	return false;
+					// }
+					// this.capitalChoosed = this.capitalSelected.prodName;
+
+					/*this.capitalChoosed = `￥${this.capitalSelected.monthPay} x ${this.capitalSelected.periods} 期,${this.capitalSelected.prodDesc}`
+
+					//插入在显示的值；
+					var html = `<p>分期：￥<span>${this.capitalSelected.monthPay}</span> x <span>${this.capitalSelected.periods}</span> 期</p>`;
+					$('.fixed_bottom_l').find('div').html(html);*/
+				// }
+				// this.show = !this.show;
+				// this.showList = true;
 
 			},
 			//显示分期列表
@@ -478,7 +456,6 @@
 						var sum = this.total * (1 + item.monthFee * item.periods) + this.packagePrice;
 						//商品首付;
 						var downPayment = sum - this.downPayment - this.initPayment;
-						console.log(sum, downPayment)
 						//首付与额度比较 ，得出实际首付款；
 						var realDownPayment;
 						var gap;
@@ -493,10 +470,8 @@
 						// this.realDownPayment = realDownPayment;
 
 						var monthPay = (sum - realDownPayment) / item.periods;
-						console.log(sum, downPayment, realDownPayment,monthPay)
 
 						var obj = Object.assign({}, item, {monthPay: monthPay.toFixed(2), realDownPayment: realDownPayment, defaultIndex: index });
-						console.log(obj)
 						arr.push(obj);
 					} else {
 						//商品+套餐的总价格；
@@ -509,7 +484,6 @@
 					
 				});
 				this.sendCapitalProdList = arr;
-				console.log(arr) 	
 			},
 			handleClick(tab, event) {
 		        console.log(tab, event);

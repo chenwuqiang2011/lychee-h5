@@ -12,14 +12,13 @@
 		<div class="content" ref = "wrapper">
 			<div class="content_body">
 				<!-- 轮播图 -->
-				<div class="lamp">
-					<swiper :options="swiperOption" ref="mySwiper" >
+				<div class="lamp" v-if = "bannerList.length > 0">
+					<swiper :options="swiperOption">
 					    <swiper-slide 
 					    	v-for = "(item, index) in bannerList"
 					    	:key = "index"
-
 					    	>
-					    	<img v-lazy="imgurl + item.imgPath " alt = "">
+					    	<img :src="imgurl + item.imgPath " alt = "">
 					    </swiper-slide>
 					    <div class="swiper-pagination"  slot="pagination"></div>
 					</swiper>
@@ -35,18 +34,7 @@
 						<img class = "icon icon_zj" v-lazy = "imgurl + item.imgPath">
 						<p>{{item.navTitle}}</p>
 					</div>
-					<!-- <div class="xyzj">
-						<i class = "icon icon_fare"></i>
-						<p>电话费</p>
-					</div>
-					<div class="xyzj">
-						<i class = "icon icon_tv"></i>
-						<p>电视机</p>
-					</div>
-					<div class="xyzj">
-						<i class = "icon icon_router"></i>
-						<p>路由器</p>
-					</div> -->
+					
 				</div>
 				<!-- 商品列表 -->
 				<div class="goods">
@@ -71,7 +59,6 @@
 	import packageHot from '../package_hot.vue';
 	import url from '../../assets/common/common.js';
 	import api from '../../api/api.js';
-	import Bscroll from 'better-scroll';
 
 	export default {
 		name: 'home',
@@ -98,14 +85,12 @@
 					   stopOnLastSlide: false,
 					   disableOnInteraction: false,
 					},
+					// loop
 					loop: true,
-					coverflow: {
-					　　rotate: 30,
-					　　stretch: 10,
-					　　depth: 60,
-					　　modifier: 2,
-					　　slideShadows : true
-					}
+					// loopAdditionalSlides: 2,
+					// loopedSlides: null,
+					observer:true,//修改swiper自己或子元素时，自动初始化swiper
+					observeParents:true//修改swiper的父元素时，自动初始化swiper				
 				},
 				imgurl: url.global.imgurl
 			}
