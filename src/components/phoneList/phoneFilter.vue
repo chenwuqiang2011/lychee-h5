@@ -15,9 +15,9 @@
 						<h3>价格</h3>
 						<div class="phone_price_range">
 							<span>价格区间(元)</span>
-							<input v-model="min" type = "number" pattern="[0-9]*" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="最低价格" class = "minPrice" />
+							<input v-model="minPrice" type = "number" pattern="[0-9]*" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="最低价格" class = "minPrice" />
 							<span>—</span>
-							<input v-model="max" type = "number" pattern="[0-9]*" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="最高价格"class = "maxPrice" />
+							<input v-model="maxPrice" type = "number" pattern="[0-9]*" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();" placeholder="最高价格"class = "maxPrice" />
 						</div>
 					</div>
 					<!-- 品牌 -->
@@ -70,14 +70,14 @@
 	export default {
 		data () {
 			return {
-				min: null,
-				max: null,
+				minPrice: null,
+				maxPrice: null,
 				category: '', //分类标识;
-				cateList: []  //条件列表；
+				cateList: [],  //条件列表；
+				queryCateList: []
 			}
 		},
 		created () {
-			console.log(this.$route.query.category);
 			this.category = this.$route.query.category;
 			var options = {
 				openId: this.$store.state.currentCity.openId,
@@ -103,7 +103,21 @@
 		methods: {
 			getCondition (e) {
 				$(e.target).toggleClass('active');
-				console.log($(e.target).data('id'))
+				console.log($(e.target).data('id'));
+				var subCateId = $(e.target).data('id');
+
+				//选中显示高亮，同时添加到选择条件数组里面，否则删除该选项；
+				if($(e.target).hasClass('active')){
+					this.queryCateList.push(subCateId);
+				} else {
+					var index = this.queryCateList.indexOf(subCateId);
+					this.queryCateList.splice(index, 1);
+				}
+				//去重；
+				this.queryCateList = this.queryCateList.filter((item, index ,self) => {
+					return self.indexOf(item) == index;
+				});
+				console.log(this.queryCateList);
 			},
 			hideSide:function(){
 			  	this.$store.dispatch('hideSideBar');
@@ -112,21 +126,18 @@
 				console.log(123)
 			},
 			reset () {
-				
+				$('.phone_capacity').find('span').removeClass('active');
+				this.queryCateList = [];
 				
 			},
 			submit () {
-				var option = {
-					brand: this.brand,
-					ROM: this.ROM,
-					RAM: this.RAM,
-					type: this.type,
-					min: this.min,
-					max: this.max
+				var options = {
+					minPrice: this.minPrice,
+					maxPrice: this.maxPrice,
+					queryCateList: JSON.stringify(this.queryCateList)
 				}
-				console.log(this.brand, this.ROM, this.RAM, this.type, this.min, this.max);
 			  	this.$store.dispatch('hideSideBar');
-			  	this.$emit('getFilter', option);
+			  	this.$emit('getFilter', options);
 			}
 		}
 	}

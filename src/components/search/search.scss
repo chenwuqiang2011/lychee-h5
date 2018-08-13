@@ -49,6 +49,7 @@
 
 	}
 	.cwq_search_hot {
+
 		padding: 0.27rem;
 		.cwq_history {
 			font-size: 0.35rem;
@@ -78,5 +79,21 @@
 	}
 	.cwq_search_goodslist {
 		padding: 0.27rem;
+		flex:1;
+		overflow-y: auto;
+		.no_more {
+			font-size: 0.37rem;
+			color: #ddd;
+			height: 1.07rem;
+			line-height: 1.07rem;
+			margin: 0 0.27rem;
+			text-align: center;
+			&:before {
+				content: '——————',
+			}
+			&:after {
+				content: '——————',
+			}
+		}
 	}
 }

@@ -2,8 +2,8 @@
 // var cityed = city || '广州';
 const state = {
     city: {"cityCode": "84401", "city": "广州", "provinceCode": "844"},
-    openId:'oVa7_0JOeScNLuMZSHrn4bkvx1U4',
-    userId: '201802251424100659072452'
+    openId:'oVa7_0Db44El8CGb6dqLXEoqFZek',
+    userId: '201808080957097832362918'
 }
 
 

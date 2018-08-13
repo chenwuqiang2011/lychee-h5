@@ -60,7 +60,10 @@
 				pageSize: 10,
 				goods: [], 
 				show: false,
-				sortList: [{ "paramName": "price", "sortType": "asc" }]
+				minPrice: '',
+				maxPrice: '',
+				sortList: [],
+				queryCateList: []
 			}
 		},
 		components: {
@@ -72,7 +75,6 @@
 		},
 		created(){
 			this.$store.dispatch('hideSideBar');
-			console.log(this.$route.query.category);
 			this.category = this.$route.query.category;
 			this.getProducts();
 			/*
@@ -85,12 +87,20 @@
 		methods: {
 			//推荐
 			commend (e) {
+				this.goods = [];
+				this.pageNum = 1;
+				this.sortList = [];
+				this.queryCateList = [];
+				this.minPrice = '';
+				this.maxPrice = '';
 				$(this.$refs.upAndDown).find('i').removeClass('up down');
 				// this.sortList.push();
 				this.getProducts();
 			},
 			// 价格排序
 			upAndDown (e) {
+				this.goods = [];
+				this.pageNum = 1;
 				console.log(this.$refs.upAndDown)
 				$(this.$refs.upAndDown).find('i').toggleClass('down');
 				if($(this.$refs.upAndDown).find('i').hasClass('down')){
@@ -100,13 +110,45 @@
 						paramName: 'price',
 						sortType: 'desc'
 					};
+					if(this.isJson(this.sortList)) {
+						this.sortList = JSON.parse(this.sortList);
+					};
 					this.sortList.splice(0, this.sortList.length, options);
 				} else {
+
+					console.log('升')
 					this.sortType = 'asc';
+					var options = {
+						paramName: 'price',
+						sortType: 'asc'
+					};
+					if(this.isJson(this.sortList)) {
+						this.sortList = JSON.parse(this.sortList);
+					};
+					this.sortList.splice(0, this.sortList.length, options);
+					console.log(this.sortList)
 					$(this.$refs.upAndDown).find('i').addClass('up');
 				}
-				console.log(this.sortList);
+				this.sortList = JSON.stringify(this.sortList);
+
 				this.getProducts();
+			},
+			isJson (str) {
+				if (typeof str == 'string') {
+			        try {
+			            var obj=JSON.parse(str);
+			            if(typeof obj == 'object' && obj ){
+			                return true;
+			            }else{
+			                return false;
+			            }
+
+			        } catch(e) {
+			            console.log('error：'+str+'!!!'+e);
+			            return false;
+			        }
+			    }
+			    console.log('It is not a string!');
 			},
 			getProducts () {
 				this.show = true;
@@ -114,7 +156,10 @@
 					pageNum: this.pageNum,
 					pageSize: this.pageSize,
 					category: this.category,
-					sortList: [{ "paramName": "price", "sortType": "asc" }],
+					sortList: this.sortList,
+					queryCateList: this.queryCateList,
+					minPrice: this.minPrice,
+					maxPrice: this.maxPrice,
 					openId: this.$store.state.currentCity.openId,
 					provinceCode: this.$store.state.currentCity.city.provinceCode,
 					cityCode: this.$store.state.currentCity.city.cityCode,
@@ -129,9 +174,17 @@
 						this.totalPage = res.data.totalPage;
 						//没有更多商品时，在列表最后追加动态元素
 						if(this.pageNum == res.data.totalPage) {
+							//没有更多商品时，在列表最后追加动态元素;
+							if($('.phone_goods').find('.no_more').length != 0) {
+								$('.no_more').remove();
+							};
 							$('.phone_goods').append(`<p class = "no_more">暂无更多商品</p>`);
-							// return false;
-						}
+						} else {
+							
+							$('.no_more').remove();
+						};
+
+						
 						console.log(res);
 					}
 					//没有更多数据时，提示
@@ -173,8 +226,13 @@
 			filter () {
 				this.$store.dispatch('showSideBar', this.category);
 			},
-			getFilter (option) {
-				console.log(option)
+			getFilter (options) {
+				this.goods = [];
+				console.log(options)
+				this.minPrice = options.minPrice;
+				this.maxPrice = options.maxPrice;
+				this.queryCateList = options.queryCateList;
+				this.getProducts();
 			}
 		}
 	}

@@ -27,6 +27,11 @@ export default new Router({
       component: resolve => require(['../components/info/info'], resolve)
     },
     {
+      path: '/info/bindPhone',//绑定手机号
+      name: 'bindPhone',
+      component: resolve => require(['../components/info/bindPhone/bindPhone'], resolve)
+    },
+    {
       path: '/goodsDetail',//商品详情
       name: 'goodsDetail',
       meta: {

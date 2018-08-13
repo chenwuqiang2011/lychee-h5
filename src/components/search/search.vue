@@ -12,18 +12,22 @@
 			</div>
 		</div>
 		<div class="cwq_search_hot" v-if = "show">
-			<div class="cwq_history">
-				<p>历史搜索</p>
-				<span v-for = "(item, index) in historyList" :key = "index" v-text = "item" @click = "getKeyWord"></span>
-			</div>
-			<p class = "clearHistory" @click = "clearHistory">清空搜索历史</p>
-			<div class="cwq_hotList">
-				<p>热门搜索</p>
-				<span v-for = "(item, index) in hotWordList" :key = "index" v-text = "item.key_name" @click = "getKeyWord"></span>
+			<div>
+				<div class="cwq_history">
+					<p>历史搜索</p>
+					<span v-for = "(item, index) in historyList" :key = "index" v-text = "item" @click = "getKeyWord"></span>
+				</div>
+				<p class = "clearHistory" @click = "clearHistory">清空搜索历史</p>
+				<div class="cwq_hotList">
+					<p>热门搜索</p>
+					<span v-for = "(item, index) in hotWordList" :key = "index" v-text = "item.key_name" @click = "getKeyWord"></span>
+				</div>
 			</div>
 		</div>
-		<div class="cwq_search_goodslist" v-if = "!show">
-			<goodslist :goodslist = "goods" :show = "false" :hot = "false"></goodslist>
+		<div class="cwq_search_goodslist" v-if = "!show" ref = "wrapper">
+			<div class = "appendTip">
+				<goodslist :goodslist = "goods" :show = "false" :hot = "false"></goodslist>
+			</div>
 		</div>
 		<loading v-if = "isShow"></loading>
 	</div>
@@ -34,6 +38,9 @@
 	import loading from '../loading.vue';
 	import './search.scss';
 	import api from '../../api/api.js';
+	import $ from 'jquery';
+	import Bscroll from 'better-scroll';
+
 	export default {
 		data () {
 			return {
@@ -42,6 +49,7 @@
 				historyList:[],
 				hotWordList: [],
 				goods: [],
+				concatGoods: [], //多页商品列表商品数组；
 				show: true, //搜索热门词与商品列表标识 
 				isShow: false,//加载动画
 				pageNum: 1,
@@ -91,6 +99,76 @@
 
 		},
 		methods: {
+			//关键词搜索商品；
+			getProducts () {
+				var params = {
+					pageNum: this.pageNum,
+					pageSize: this.pageSize,
+					keyWord: this.keyWord,
+					openId: this.$store.state.currentCity.openId,
+					provinceCode: this.$store.state.currentCity.city.provinceCode,
+					cityCode: this.$store.state.currentCity.city.cityCode,
+				};
+				api.queryGoodsByKeyWord(params).then(res => {
+					console.log(res);
+					if(res.data.errcode == 1){
+						//商品列表；
+						this.goods = this.goods.concat(res.data.goodsList);
+						this.isShow = false;
+
+						if(this.pageNum == res.data.totalPage) {
+							//没有更多商品时，在列表最后追加动态元素;
+							if($('.cwq_search_goodslist').find('.no_more').length != 0) {
+								$('.no_more').remove();
+							};
+							$('.appendTip').append(`<p class = "no_more">暂无更多商品</p>`);
+							console.log(2222)
+						} else {
+							
+							$('.no_more').remove();
+						};
+
+						//better-scroll滑动
+						if(!this.scroll){
+							this.$nextTick(()=>{
+								this.scroll = new Bscroll(this.$refs.wrapper, {
+									click: true, 
+									probeType: 2,
+									pullUpLoad:{
+			                            threshold: -50, // 负值是当上拉到超过低部 70px；正值是距离底部距离 时，                    
+			                        }
+								});
+							/*	this.scroll.on('touchEnd', (posy) =>{
+									// console.log(123,posy)
+								});*/
+								this.scroll.on('pullingUp', (posy) => {
+									if(this.pageNum < res.data.totalPage){
+										console.log('加载更多！');
+										this.pageNum++;
+										this.getProducts();
+									} else {
+										console.log('没有更多数据时，提示');
+
+										//没有更多商品时，在列表最后追加动态元素;
+										// if($('.cwq_search_goodslist').find('.no_more').length != 0) {
+										// 	$('.no_more').remove();
+										// 	console.log('add')
+										// };
+										// $('.cwq_search_goodslist').append(`<p class = "no_more">暂无更多商品</p>`);
+									}
+									//当你加载数据完成后还要调用finishPullUp告诉 better-scroll 数据已加载。
+									this.scroll.finishPullUp();                                    
+			        				this.scroll.refresh();  
+									
+								})
+							})
+						} else {
+							this.scroll.finishPullUp();
+							this.scroll.refresh();
+						}
+					}
+				})
+			},
 			inputOnblur () {
 				this.show = true;
 			},
@@ -113,6 +191,7 @@
 					return false;
 				}
 				this.show = false;
+
 				//把搜索记录写入缓存；
 				var history = localStorage.getItem('searchHistory');
 
@@ -146,23 +225,10 @@
 					console.log(history, arr);
 					this.historyList = arr;
 				};
-				//搜索商品；
-				var params = {
-					pageNum: this.pageNum,
-					pageSize: this.pageSize,
-					keyWord: this.keyWord,
-					openId: this.$store.state.currentCity.openId,
-					provinceCode: this.$store.state.currentCity.city.provinceCode,
-					cityCode: this.$store.state.currentCity.city.cityCode,
-				}
 				this.isShow = true;
-				api.queryGoodsByKeyWord(params).then(res => {
-					console.log(res);
-					if(res.data.errcode == 1){
-						this.isShow = false;
-						this.goods = res.data.goodsList;
-					}
-				})
+				this.goods = [];
+				//搜索商品；
+				this.getProducts();
 			},
 			//清空搜索历史；
 			clearHistory () {

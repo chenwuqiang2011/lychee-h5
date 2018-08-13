@@ -16,7 +16,6 @@ var url = IS_DEBUG ? global.global.testurl : global.global.baseurl;
 function getToken () {
 	var lycheeToken = JSON.parse(localStorage.getItem('lycheeToken'));
 	if(lycheeToken) return lycheeToken.token;
-
 }
 
 export default {
@@ -59,7 +58,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//关键词查询商品;
@@ -70,7 +68,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//查询商品列表 ;
@@ -81,7 +78,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//搜索条件显示；
@@ -92,7 +88,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//搜索列表+热门搜索；
@@ -103,7 +98,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//商品收藏；
@@ -114,7 +108,6 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//商品详情;
@@ -125,16 +118,36 @@ export default {
             	'Content-Type': 'application/x-www-form-urlencoded',
             	'Authorization': 'Bearer ' + token
         	}
-
 		});
 	},
 	//获取用户信息，判断是否激活；
-	getBaseInfo (params) {
+	// getBaseInfo (params) {
+	// 	var token = getToken();
+	// 	return axios.post(url + '/mine/index', JSON.stringify(params), {
+	// 		headers: {
+ //            	'Content-Type': 'application/json;charset=UTF-8'
+ //        	}
+ //    	});
+	// },
+	//绑定手机发送短信接口；
+	sendMsg (params) {
 		var token = getToken();
-		return axios.post(url + '/mine/index', JSON.stringify(params), {
+		return axios.post(url + '/msg/sendMsg', JSON.stringify(params), {
 			headers: {
-            	'Content-Type': 'application/json;charset=UTF-8'
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
         	}
     	});
-	}
+	},
+	//绑定用户；
+	bindUser (params) {
+		var token = getToken();
+		return axios.post(url + '/user/bindUser', JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+    	});
+	},
+
 }
