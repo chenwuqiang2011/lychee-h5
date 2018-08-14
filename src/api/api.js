@@ -129,6 +129,18 @@ export default {
  //        	}
  //    	});
 	// },
+
+
+	//获取当前用户详细情况；
+	getUserInfo (params) {
+		var token = getToken();
+		return axios.post(url + '/mine/index', JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+    	});
+	},
 	//绑定手机发送短信接口；
 	sendMsg (params) {
 		var token = getToken();
@@ -143,6 +155,36 @@ export default {
 	bindUser (params) {
 		var token = getToken();
 		return axios.post(url + '/user/bindUser', JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+    	});
+	},
+	//解除绑定；
+	unbindUser (params) {
+		var token = getToken();
+		return axios.post(url + '/user/unbindUser', JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+    	});
+	},
+	//绑定用户基本信息；
+	applyCredit (params) {
+		var token = getToken();
+		return axios.post(url + '/user/applyCredit', JSON.stringify(params), {
+			headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+            	'Authorization': 'Bearer ' + token
+        	}
+    	});
+	},
+	//用户基本信息（学历，驾驶证一类）；
+	userInfo (params) {
+		var token = getToken();
+		return axios.post(url + '/mine/userInfo', JSON.stringify(params), {
 			headers: {
             	'Content-Type': 'application/json;charset=UTF-8',
             	'Authorization': 'Bearer ' + token

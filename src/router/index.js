@@ -27,9 +27,40 @@ export default new Router({
       component: resolve => require(['../components/info/info'], resolve)
     },
     {
+      path: '/info/personalMsg',//个人信息
+      name: 'personalMsg',
+      component: resolve => require(['../components/info/personalMsg/personalMsg'], resolve)
+    },
+    {
       path: '/info/bindPhone',//绑定手机号
       name: 'bindPhone',
       component: resolve => require(['../components/info/bindPhone/bindPhone'], resolve)
+    },
+    {
+      path: '/info/application',//收集用户信息；
+      name: 'application',
+      meta: {
+        title: '填写资料',
+        keepAlive: true
+      },
+      component: resolve => require(['../components/info/application/application'], resolve)
+    },
+    {
+      path: '/info/application/applicationSuccess',//收集用户信息；
+      name: 'applicationSuccess',
+      meta: {
+        title: '授信成功'
+      },
+      component: resolve => require(['../components/info/application/applicationSuccess'], resolve)
+    },
+    {
+      //授权协议
+      name: 'agreement',
+      path: '/info/application/agreement',
+      meta: {
+        title: '授权协议',
+      },
+      component: resolve => require(['../components/info/application/agreement'], resolve)
     },
     {
       path: '/goodsDetail',//商品详情

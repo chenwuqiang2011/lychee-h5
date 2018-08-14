@@ -39,7 +39,9 @@
 				<!-- 商品列表 -->
 				<div class="goods">
 					<h1>推荐机型</h1>
-					<goodslist :goodslist = "goodslist"></goodslist>
+					<div>
+						<goodslist :goodslist = "goodslist"></goodslist>
+					</div>
 					<h1>热销套餐</h1>
 					<packageHot></packageHot>
 				</div>

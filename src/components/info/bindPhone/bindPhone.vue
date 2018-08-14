@@ -129,12 +129,16 @@
 	            		verifyCode: this.validCode
 	            	}
 	            	api.bindUser(options).then( res => {
-	            		console.log(res);
+	            		console.log(res, options);
 	            		if(res.data.errcode == 1){
 	            			this.$message({
 	            				message: '恭喜您！绑定成功！',
-	            				type: 'success'
-	            			})
+	            				type: 'success',
+	            			});
+	            			var that = this;
+	            			setTimeout(function(){
+	            				that.$router.push({name: 'application', query: {phoneNo: that.phoneNo}});
+	            			}, 1000)
 	            		} else {
 	            			this.$message({
 	            				message: res.data.errmsg,

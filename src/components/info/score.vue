@@ -4,7 +4,6 @@
 <script>
 	function canvasScore(id,getScore,getTime){
 	    //初始化-预定义
-	    console.log(document.getElementById(id));
 	    var ele = document.getElementById(id);
 	    var ctx = ele.getContext('2d');
 	        
@@ -120,8 +119,6 @@
 	    ctx.arc(0,-90,5,0,2*Math.PI);
 	    ctx.fill();
 	};
-
-
 	export default {
 		data () {
 			return {
@@ -139,7 +136,8 @@
 				default: 'Canvas01'
 			}
 		},
-		mounted () {console.log(123,this.el, this.score, this.time)
+		mounted () {
+			console.log(this.score)
 			canvasScore(this.el, this.score, this.time);
 		}
 	}

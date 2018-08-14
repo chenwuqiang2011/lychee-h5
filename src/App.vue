@@ -1,9 +1,10 @@
 <template>
   <div id="app">
-      <router-view></router-view>
+
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
   
     <keep-alive>
-      <!-- <router-view></router-view> -->
+      <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
     <!-- <spinner v-show="false"></spinner> -->
   </div>
@@ -87,5 +88,15 @@ body, html {
   height: 100%;
   max-width: 768px;
   /*margin-top: 60px;*/
+}
+.el-message-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 80%;
+  height: 4.0rem;
 }
 </style>

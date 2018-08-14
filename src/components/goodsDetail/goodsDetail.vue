@@ -379,7 +379,8 @@
 					});
 					return false;
 				}
-				this.$router.push({name: 'rentDetail', query: option});
+				console.log(123)
+				// this.$router.push({name: 'rentDetail'});
 			},
 			//选择完成；
 			completed () {
